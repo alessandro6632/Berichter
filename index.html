@@ -1,0 +1,1868 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BERICHTER</title>
+  <script>
+    try {
+      const activeUser = localStorage.getItem('berichter_logged_in_user');
+      if (!activeUser) window.location.replace('login.html');
+    } catch (error) {
+      window.location.replace('login.html');
+    }
+  </script>
+  <style>
+    :root {
+      --cyan: #7fc4d1;
+      --pink: #ea7f67;
+      --yellow: #efca5f;
+      --light: #eeede8;
+      --black: #1d1d1b;
+      --white: #ffffff;
+      --line: rgba(29,29,27,0.14);
+      --line-soft: rgba(29,29,27,0.08);
+      --shadow: 0 18px 34px rgba(29,29,27,0.10);
+      --radius-xl: 26px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --bg: #dfddd6;
+      --surface: #f8f7f3;
+      --surface-2: var(--white);
+      --text: #171715;
+      --topbar: rgba(247,246,241,0.92);
+      --accent: var(--pink);
+      --tool-title-size: 28px;
+      --tool-desc-size: 14px;
+      --tool-category-size: 11px;
+      --tool-body-padding: 20px;
+      --tool-header-min-height: 118px;
+      --tool-head-padding: 26px 24px;
+      --tool-label-size: 12px;
+      --tool-input-size: 14px;
+      --tool-input-padding: 11px 13px;
+      --tool-textarea-height: 130px;
+      --tool-button-font-size: 15px;
+      --tool-button-padding: 15px 18px;
+      --tool-head-bg: var(--white);
+      --tool-body-bg: #fbfbfa;
+      --tool-input-bg: var(--white);
+      --tool-chip-bg: rgba(32,32,32,0.05);
+      --tool-success-bg: #e6f4f7;
+      --tool-success-text: #202020;
+      --tool-success-border: rgba(143,208,220,0.55);
+      --tool-error-bg: #ffe7e1;
+      --tool-error-text: #202020;
+      --tool-error-border: rgba(255,143,120,0.48);
+    }
+
+    body.dark-mode {
+      --bg: #121416;
+      --surface: #202427;
+      --surface-2: #2a2f33;
+      --text: #f7f3ea;
+      --topbar: rgba(18,20,22,0.94);
+      --line: rgba(246,244,239,0.14);
+      --line-soft: rgba(246,244,239,0.08);
+      --shadow: 0 18px 40px rgba(0,0,0,0.34);
+      --tool-head-bg: #292e32;
+      --tool-body-bg: #22272b;
+      --tool-input-bg: #31373c;
+      --tool-chip-bg: rgba(246,244,239,0.08);
+      --tool-success-bg: #29414a;
+      --tool-success-text: #f6f4ef;
+      --tool-success-border: rgba(143,208,220,0.4);
+      --tool-error-bg: #4d322e;
+      --tool-error-text: #f6f4ef;
+      --tool-error-border: rgba(255,143,120,0.36);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        linear-gradient(180deg, #f6f5f1 0%, #ebe8e1 18%, var(--bg) 100%);
+      color: var(--text);
+      transition: background .2s ease, color .2s ease;
+    }
+
+    body.dark-mode {
+      background: linear-gradient(180deg, #1a1d20 0%, #141618 18%, var(--bg) 100%);
+    }
+    a { text-decoration: none; color: inherit; }
+    .container { width: min(1360px, calc(100% - 32px)); margin: 0 auto; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--topbar);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 6px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 128px;
+      height: 78px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .nav-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav-link,
+    .toggle-btn {
+      border: 0;
+      background: rgba(255,255,255,0.36);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(29,29,27,0.06);
+      transition: .18s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active,
+    .toggle-btn:hover {
+      background: rgba(234,127,103,0.18);
+      color: var(--text);
+      transform: translateY(-1px);
+    }
+
+    .page { display: none; padding: 28px 0 40px; }
+    .page.active { display: block; }
+
+    .card,
+    .tool-card {
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .card { padding: 28px; }
+
+    .section-title {
+      margin: 0 0 8px;
+      font-size: 42px;
+      line-height: .98;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .section-text {
+      margin: 0;
+      max-width: 980px;
+      line-height: 1.7;
+      font-size: 17px;
+    }
+
+    .small-note,
+    .auto-save-note {
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      opacity: 0.86;
+    }
+
+    .cta-row,
+    .header-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 16px;
+      padding: var(--tool-button-padding);
+      font-size: var(--tool-button-font-size);
+      font-weight: 900;
+      cursor: pointer;
+      transition: .18s ease;
+      box-shadow: var(--shadow);
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-pink { background: var(--pink); color: var(--white); }
+    .btn-yellow { background: var(--yellow); color: var(--black); }
+    .btn-cyan { background: var(--cyan); color: var(--black); }
+    .btn-black { background: #202224; color: var(--white); }
+
+    .grid { display: grid; gap: 20px; }
+    .tools-grid { grid-template-columns: repeat(var(--tools-columns, 3), minmax(0, 1fr)); margin-top: 22px; gap: 26px; }
+    .options-grid,
+    .dashboard-grid,
+    .settings-grid,
+    .export-grid { grid-template-columns: 1fr 1fr; }
+    .account-layout { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 20px; }
+    .team-layout,
+    .tool-controls,
+    .form-grid,
+    .mini-info,
+    .stats-grid { display: grid; gap: 12px; }
+    .team-layout,
+    .tool-controls,
+    .form-grid { grid-template-columns: 1fr 1fr; }
+    .account-form { grid-template-columns: 1fr; }
+    .mini-info,
+    .stats-grid { grid-template-columns: repeat(3, 1fr); }
+
+    .label-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .label-row label {
+      margin-bottom: 0;
+    }
+
+    .help-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--surface-2);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 900;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: .18s ease;
+    }
+
+    .help-link:hover {
+      background: rgba(234,127,103,0.16);
+      border-color: rgba(234,127,103,0.28);
+      transform: translateY(-1px);
+    }
+
+    .dashboard-card,
+    .summary-item,
+    .settings-card,
+    .export-card,
+    .checkbox-card,
+    .info-pill,
+    .employee-item,
+    .empty-state {
+      background: var(--surface-2);
+      border: 1px solid var(--line-soft);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .checkbox-card {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    .checkbox-card.checked {
+      background: rgba(234,127,103,0.10);
+      border-color: rgba(234,127,103,0.26);
+      box-shadow: 0 10px 24px rgba(29,29,27,0.06);
+    }
+
+    .option-section {
+      display: grid;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.34);
+      border: 1px solid var(--line);
+    }
+
+    .option-section-head {
+      display: grid;
+      gap: 6px;
+    }
+
+    .option-section-title {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .option-section-text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+
+    .option-section-body {
+      display: grid;
+      gap: 12px;
+    }
+
+    .option-placeholder {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: var(--surface-2);
+      border: 1px dashed var(--line);
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.78;
+    }
+
+    .option-layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+      align-items: start;
+    }
+
+    .option-sidebar,
+    .option-detail {
+      padding: 16px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.28);
+      border: 1px solid var(--line);
+    }
+
+    .option-sidebar {
+      display: grid;
+      gap: 10px;
+    }
+
+    .option-nav-btn {
+      width: 100%;
+      border: 1px solid var(--line-soft);
+      background: var(--surface-2);
+      color: var(--text);
+      text-align: left;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .option-nav-btn:hover,
+    .option-nav-btn.active {
+      background: rgba(234,127,103,0.16);
+      border-color: rgba(234,127,103,0.28);
+      transform: translateY(-1px);
+    }
+
+    .option-detail {
+      display: grid;
+      gap: 14px;
+    }
+
+    .option-empty-state {
+      padding: 18px;
+      border-radius: 18px;
+      background: var(--surface-2);
+      border: 1px dashed var(--line);
+      font-size: 14px;
+      line-height: 1.7;
+      opacity: 0.82;
+    }
+
+    .order-manager {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .order-manager h4 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .order-manager p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.8;
+    }
+
+    .order-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px;
+      border-radius: 16px;
+      background: var(--surface-2);
+      border: 1px solid var(--line-soft);
+    }
+
+    .order-item.dragging {
+      opacity: 0.45;
+      border-color: rgba(234,127,103,0.36);
+    }
+
+    .order-item.drag-over {
+      border-color: rgba(234,127,103,0.46);
+      box-shadow: inset 0 0 0 2px rgba(234,127,103,0.16);
+    }
+
+    .drag-handle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      border: 1px solid var(--line-soft);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 16px;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .drag-handle:active {
+      cursor: grabbing;
+    }
+
+    @keyframes checkboxPop {
+      0% {
+        transform: scale(1) rotate(0deg);
+      }
+      22% {
+        transform: scale(1.18) rotate(-8deg);
+      }
+      52% {
+        transform: scale(1.42) rotate(6deg);
+      }
+      78% {
+        transform: scale(0.88) rotate(-4deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    .order-item strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .order-item span {
+      display: block;
+      font-size: 13px;
+      line-height: 1.5;
+      opacity: 0.76;
+    }
+
+    .checkbox-card input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      accent-color: var(--pink);
+      transform-origin: center;
+    }
+
+    .checkbox-card input[type="checkbox"].pop {
+      animation: checkboxPop .62s cubic-bezier(.17,.89,.32,1.49);
+    }
+
+    .checkbox-card strong,
+    .dashboard-card strong,
+    .summary-item strong,
+    .info-pill strong,
+    .employee-meta strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .summary-item strong {
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .summary-link {
+      color: var(--pink);
+      font-weight: 800;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .employee-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+    }
+
+    .employee-meta span {
+      display: block;
+      font-size: 13px;
+      line-height: 1.5;
+      opacity: 0.82;
+    }
+
+    .tool-card { padding: 0; }
+
+    .tool-header {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      min-height: var(--tool-header-min-height);
+      border-bottom: 2px solid var(--line-soft);
+    }
+
+    .tool-strip { background: var(--pink); position: relative; }
+    .tool-strip.yellow { background: var(--yellow); }
+    .tool-strip.cyan { background: var(--cyan); }
+    .tool-strip::after {
+      content: "";
+      position: absolute;
+      left: 28px;
+      top: 34px;
+      background-image: radial-gradient(rgba(255,255,255,0.62) 1.8px, transparent 1.8px);
+      background-size: 8px 8px;
+      width: 48px;
+      height: 48px;
+    }
+
+    .tool-head-copy {
+      padding: var(--tool-head-padding);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--tool-head-bg);
+    }
+
+    .tool-head-copy h3 {
+      margin: 0 0 8px;
+      font-size: var(--tool-title-size);
+      line-height: .98;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .tool-head-copy p { margin: 0; line-height: 1.5; font-size: var(--tool-desc-size); }
+
+    .tool-category {
+      margin-top: 8px;
+      display: inline-flex;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--tool-chip-bg);
+      border: 1px solid var(--line-soft);
+      font-size: var(--tool-category-size);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .tool-body { padding: var(--tool-body-padding); background: var(--tool-body-bg); }
+    .field-group.full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: var(--tool-label-size);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--tool-input-bg);
+      color: var(--text);
+      padding: var(--tool-input-padding);
+      font-size: var(--tool-input-size);
+      outline: none;
+      transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+    }
+
+    textarea {
+      min-height: var(--tool-textarea-height);
+      resize: vertical;
+      line-height: 1.55;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--pink);
+      box-shadow: 0 0 0 4px rgba(255,143,120,0.12);
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .status {
+      display: none;
+      margin-top: 12px;
+      border-radius: 14px;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.55;
+      border: 2px solid var(--line);
+    }
+    .status.success { display: block; background: var(--tool-success-bg); color: var(--tool-success-text); border-color: var(--tool-success-border); }
+    .status.error { display: block; background: var(--tool-error-bg); color: var(--tool-error-text); border-color: var(--tool-error-border); }
+
+    .top-utility-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .count-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      border: 2px solid var(--line-soft);
+      font-weight: 900;
+    }
+
+    .logo-help {
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.84;
+    }
+
+    .layout-controls {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    .layout-btn {
+      border: 0;
+      background: var(--surface);
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: .18s ease;
+    }
+
+    .layout-btn:hover,
+    .layout-btn.active {
+      background: var(--accent);
+      color: var(--white);
+      transform: translateY(-1px);
+    }
+
+    body.columns-3 {
+      --tool-title-size: 23px;
+      --tool-desc-size: 13px;
+      --tool-category-size: 10px;
+      --tool-body-padding: 16px;
+      --tool-header-min-height: 100px;
+      --tool-head-padding: 18px 16px;
+      --tool-label-size: 11px;
+      --tool-input-size: 13px;
+      --tool-input-padding: 9px 11px;
+      --tool-textarea-height: 108px;
+      --tool-button-font-size: 13px;
+      --tool-button-padding: 11px 12px;
+    }
+
+    .footer {
+      padding: 6px 0 28px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 1100px) {
+      .tools-grid,
+      .options-grid,
+      .dashboard-grid,
+      .settings-grid,
+      .export-grid,
+      .account-layout,
+      .team-layout,
+      .tool-controls,
+      .form-grid,
+      .mini-info,
+      .stats-grid { grid-template-columns: 1fr; }
+      .option-layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 1380px) {
+      .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 760px) {
+      .nav { align-items: flex-start; }
+      .section-title { font-size: 34px; }
+      .tool-header { grid-template-columns: 1fr; }
+      .tool-strip { min-height: 80px; }
+      .button-row { grid-template-columns: 1fr; }
+      .card, .tool-body, .tool-head-copy { padding: 20px; }
+      .brand { width: 100%; }
+      .nav-controls { width: 100%; justify-content: flex-start; }
+      .employee-item { grid-template-columns: 1fr; }
+      .brand-logo { width: 104px; height: 64px; }
+      .tools-grid { grid-template-columns: 1fr; }
+      .tools-grid { gap: 22px; }
+      .layout-controls { justify-content: flex-start; }
+    }
+
+    @media print {
+      body { background: #fff; color: #111; }
+      .topbar, .nav-links, .toggle-btn, .header-actions, .cta-row, .button-row, .tool-controls, .btn, .footer, .page:not(.active) { display: none !important; }
+      .page.active { display: block !important; }
+      .card, .tool-card, .summary-item, .dashboard-card, .settings-card, .export-card { box-shadow: none; border: 1px solid #ccc; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container nav">
+      <div class="brand">
+        <img class="brand-logo" id="brandLogo" src="afbeeldingen/logo_png_zwart.png" alt="Logo BERICHTER" onerror="handleLogoError(this)">
+      </div>
+
+      <div class="nav-controls">
+        <nav class="nav-links">
+          <button class="nav-link active" id="navHomeBtn" type="button" onclick="showPage('homePage')">Home</button>
+          <button class="nav-link" id="navOptionsBtn" type="button" onclick="showPage('optionsPage')">Venster beheer</button>
+          <button class="nav-link" id="navAccountBtn" type="button" onclick="showPage('accountPage')">Account beheren</button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page active" id="homePage">
+      <div class="container">
+        <div id="activeBusinessTypeNote" hidden>Nog geen bedrijfstype geselecteerd.</div>
+        <div id="autoSaveStatus" hidden>Autosave staat klaar.</div>
+        <div class="layout-controls">
+          <button class="layout-btn" type="button" data-columns="2" onclick="setHomeColumns(2)">2 kolommen</button>
+          <button class="layout-btn active" type="button" data-columns="3" onclick="setHomeColumns(3)">3 kolommen</button>
+        </div>
+
+        <div class="grid tools-grid" id="toolsContainer"></div>
+      </div>
+    </section>
+
+    <section class="page" id="optionsPage">
+      <div class="container">
+        <div class="card">
+          <h2 class="section-title">Venster beheer</h2>
+          <p class="section-text">
+            Beheer hieronder het zichtbare berichtvenster op je homepagina.
+          </p>
+
+          <div class="header-actions">
+            <button class="btn btn-yellow" type="button" onclick="selectAllTools()">Alles selecteren</button>
+            <button class="btn btn-black" type="button" onclick="resetToolSelection()">Reset selectie</button>
+          </div>
+
+          <div class="option-layout">
+            <div class="option-sidebar" id="optionsNav"></div>
+            <div class="option-detail" id="optionsList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="accountPage">
+      <div class="container">
+        <div class="account-layout">
+          <div class="grid" style="gap:20px;">
+            <div class="card">
+              <h2 class="section-title">Account beheren</h2>
+              <p class="section-text">
+                Kies eerst onder welk soort bedrijf je valt. Het zichtbare berichtvenster blijft gericht op recensie-aanvragen.
+              </p>
+
+              <div class="form-grid account-form" style="margin-top:22px;">
+                <div class="field-group full">
+                  <label for="bedrijfNaam">Bedrijfsnaam</label>
+                  <input type="text" id="bedrijfNaam" placeholder="Bijvoorbeeld: Jouw Bedrijf" />
+                </div>
+
+                <div class="field-group full">
+                  <label for="bedrijfType">Soort bedrijf</label>
+                  <select id="bedrijfType"></select>
+                </div>
+
+                <div class="field-group full">
+                  <div class="label-row">
+                    <label for="websiteLink">Link naar je website</label>
+                    <a class="help-link" href="help-links.html#website-link" target="_blank" rel="noopener noreferrer" aria-label="Hulp bij website link">?</a>
+                  </div>
+                  <input type="text" id="websiteLink" placeholder="https://www.jouwwebsite.nl" />
+                </div>
+
+                <div class="field-group full">
+                  <div class="label-row">
+                    <label for="googleReviewLink">Google recensie pagina link</label>
+                    <a class="help-link" href="https://support.google.com/business/answer/16816815?hl=en" target="_blank" rel="noopener noreferrer" aria-label="Hulp bij Google recensie link">?</a>
+                  </div>
+                  <input type="text" id="googleReviewLink" placeholder="https://g.page/r/... of andere reviewlink" />
+                </div>
+
+                <div class="field-group full">
+                  <div class="label-row">
+                    <label for="facebookLink">Facebook link</label>
+                    <a class="help-link" href="help-links.html#facebook-link" target="_blank" rel="noopener noreferrer" aria-label="Hulp bij Facebook link">?</a>
+                  </div>
+                  <input type="text" id="facebookLink" placeholder="https://facebook.com/jouwpagina" />
+                </div>
+
+                <div class="field-group full">
+                  <div class="label-row">
+                    <label for="instagramLink">Instagram link</label>
+                    <a class="help-link" href="help-links.html#instagram-link" target="_blank" rel="noopener noreferrer" aria-label="Hulp bij Instagram link">?</a>
+                  </div>
+                  <input type="text" id="instagramLink" placeholder="https://instagram.com/jouwaccount" />
+                </div>
+
+                <div class="field-group full">
+                  <div class="label-row">
+                    <label for="tiktokLink">TikTok link</label>
+                    <a class="help-link" href="help-links.html#tiktok-link" target="_blank" rel="noopener noreferrer" aria-label="Hulp bij TikTok link">?</a>
+                  </div>
+                  <input type="text" id="tiktokLink" placeholder="https://tiktok.com/@jouwaccount" />
+                </div>
+              </div>
+
+              <div class="button-row">
+                <button class="btn btn-pink" type="button" onclick="saveAccount()">Account opslaan</button>
+                <button class="btn btn-yellow" type="button" onclick="loadAccountToForm()">Opnieuw laden</button>
+                <button class="btn btn-black" type="button" onclick="clearAccount()">Account leegmaken</button>
+              </div>
+
+              <div class="header-actions" style="margin-top:14px;">
+                <button class="btn btn-cyan" type="button" id="darkModeToggle">🌙 Donkere modus</button>
+                <button class="btn btn-black" type="button" onclick="logoutUser()">Uitloggen</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <h2 class="section-title">Team beheren</h2>
+              <p class="section-text">
+                Voeg meerdere medewerkers toe. In elk berichtvenster kun je daarna kiezen wie de klant heeft geholpen.
+              </p>
+
+              <div class="team-layout" style="margin-top:22px;">
+                <div class="field-group">
+                  <label for="employeeName">Naam medewerker</label>
+                  <input type="text" id="employeeName" placeholder="Bijvoorbeeld: Lisa van Dijk" />
+                </div>
+                <div class="field-group">
+                  <label for="employeeRole">Rol / afdeling</label>
+                  <input type="text" id="employeeRole" placeholder="Bijvoorbeeld: Verkoopteam" />
+                </div>
+                <div class="field-group full">
+                  <label for="employeeEmail">E-mailadres medewerker</label>
+                  <input type="email" id="employeeEmail" placeholder="Bijvoorbeeld: lisa@bedrijf.nl" />
+                </div>
+              </div>
+
+              <div class="header-actions">
+                <button class="btn btn-pink" type="button" onclick="addEmployee()">Medewerker toevoegen</button>
+                <button class="btn btn-black" type="button" onclick="clearEmployees()">Team leegmaken</button>
+              </div>
+
+              <div class="grid" id="employeeList" style="margin-top:16px;"></div>
+            </div>
+          </div>
+
+          <div class="grid" style="gap:20px;">
+            <div class="card">
+              <h2 class="section-title">Opgeslagen gegevens</h2>
+              <p class="section-text">Dit overzicht laat direct zien welke accountgegevens en welk bedrijfstype actief zijn.</p>
+
+              <div class="grid" style="gap:12px; margin-top:22px;">
+                <div class="summary-item"><strong>Bedrijfsnaam</strong><span id="viewBedrijfNaam">Nog niet ingesteld</span></div>
+                <div class="summary-item"><strong>Soort bedrijf</strong><span id="viewBedrijfType">Nog niet ingesteld</span></div>
+                <div class="summary-item"><strong>Logo</strong><span id="viewLogoPath">Nog niet ingesteld</span></div>
+                <div class="summary-item"><strong>Website</strong><span id="viewWebsiteLink">Nog niet ingesteld</span></div>
+                <div class="summary-item"><strong>Google review link</strong><span id="viewGoogleReviewLink">Nog niet ingesteld</span></div>
+                <div class="summary-item"><strong>Facebook</strong><span id="viewFacebookLink">Nog niet ingesteld</span></div>
+                <div class="summary-item"><strong>Instagram</strong><span id="viewInstagramLink">Nog niet ingesteld</span></div>
+                <div class="summary-item"><strong>TikTok</strong><span id="viewTiktokLink">Nog niet ingesteld</span></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h2 class="section-title">Export & instellingen</h2>
+              <p class="section-text">Extra beheerfuncties voor export en weergave.</p>
+
+              <div class="grid export-grid" style="margin-top:22px;">
+                <div class="export-card">
+                  <strong>PDF export</strong>
+                  <p>Print de actieve pagina naar PDF via de browser.</p>
+                  <button class="btn btn-black" type="button" onclick="printCurrentPage()">PDF exporteren</button>
+                </div>
+                <div class="export-card">
+                  <strong>CSV export</strong>
+                  <p>Exporteer account-, team- en toolinstellingen naar een CSV-bestand.</p>
+                  <button class="btn btn-cyan" type="button" onclick="exportCSV()">CSV downloaden</button>
+                </div>
+              </div>
+
+              <div class="grid settings-grid" style="margin-top:16px;">
+                <div class="settings-card">
+                  <strong>Donkere modus</strong>
+                  <p>Gebruik de knop bovenin om de interface te wisselen.</p>
+                </div>
+                <div class="settings-card">
+                  <strong>Automatische opslag</strong>
+                  <p>Wijzigingen worden direct lokaal opgeslagen.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <template id="toolCardTemplate">
+    <div class="tool-card">
+      <div class="tool-header">
+        <div class="tool-strip"></div>
+        <div class="tool-head-copy">
+          <h3 class="tool-title"></h3>
+          <p class="tool-desc"></p>
+          <div class="tool-category"></div>
+        </div>
+      </div>
+
+      <div class="tool-body">
+        <div class="form-grid">
+          <div class="field-group">
+            <label>Klant naam</label>
+            <input type="text" class="field-customer-name" placeholder="Bijvoorbeeld: Jan Jansen" />
+          </div>
+
+          <div class="field-group">
+            <label>Telefoonnummer klant</label>
+            <input type="text" class="field-phone" placeholder="Bijvoorbeeld: 0612345678 of +31612345678" />
+          </div>
+
+          <div class="field-group">
+            <label>E-mailadres klant</label>
+            <input type="email" class="field-email" placeholder="Bijvoorbeeld: klant@voorbeeld.nl" />
+          </div>
+
+          <div class="field-group">
+            <label>Geholpen door</label>
+            <select class="field-helper-select"></select>
+          </div>
+
+          <div class="field-group appointment-only" hidden>
+            <label>Afspraak datum</label>
+            <input type="date" class="field-appointment-date" />
+          </div>
+
+          <div class="field-group appointment-only" hidden>
+            <label>Afspraak tijd</label>
+            <input type="time" class="field-appointment-time" />
+          </div>
+
+          <div class="field-group product-only full" hidden>
+            <label>Besteld product</label>
+            <input type="text" class="field-product-name" placeholder="Bijvoorbeeld: winterjas, boeket of koffiemachine" />
+          </div>
+
+          <div class="field-group full">
+            <label>Berichttekst</label>
+            <textarea class="field-message"></textarea>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button class="btn btn-pink btn-whatsapp" type="button">WhatsApp versturen</button>
+          <button class="btn btn-yellow btn-email" type="button">E-mail versturen</button>
+          <button class="btn btn-black btn-clear" type="button">Veld resetten</button>
+        </div>
+
+        <div class="status tool-status"></div>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    const ACCOUNT_KEY = 'berichter_account_v3';
+    const VISIBLE_TOOLS_KEY = 'berichter_visible_tools_v3';
+    const SETTINGS_KEY = 'berichter_settings_v3';
+    const EMPLOYEES_KEY = 'berichter_employees_v3';
+    const TOOL_INPUTS_KEY = 'berichter_tool_inputs_v3';
+    const STRIP_CLASSES = ['pink', 'yellow', 'cyan'];
+    const STANDARD_TOOL_IDS = [];
+
+    const TOOL_DEFINITIONS = [
+      { id:'review_request', category:'Reviews', title:'Recensie aanvragen', desc:'Vraag eenvoudig een Google review aan na een bezoek of aankoop.', emailSubject:'Verzoek om een Google review', buildMessage(d,a){ const n=d.customerName?`Hoi ${d.customerName}`:'Beste klant,'; const c=a.bedrijfNaam||'[bedrijfsnaam]'; const l=a.googleReviewLink||'[link]'; const s=getSignatureLine(d,a); return `${n}\n\nBedankt voor uw bezoek aan onze winkel.\nWe hopen dat u er blij mee bent.\n\nZou je ons willen helpen met een korte review op Google?\n${l}\n\nAlvast bedankt!\n${s}`; } },
+      { id:'appointment_reminder', category:'Afspraken', title:'Afspraak herrinering', desc:'Stuur een vriendelijke herinnering voor een geplande afspraak.', emailSubject:'Herinnering voor je afspraak', buildMessage(d,a){ const c=a.bedrijfNaam||'[bedrijfsnaam]'; const dateText = d.appointmentDate ? formatDateForMessage(d.appointmentDate) : '[datum]'; const timeText = d.appointmentTime || '[tijd]'; const s=getSignatureLine(d,a); return `Beste klant,\n\nBij deze sturen wij een herinnering dat uw afspraak gepland staat op ${dateText} om ${timeText}.\n\nMocht u nog vragen hebben of uw afspraak willen wijzigen, neem dan gerust contact op met ${c}.\n\nMet vriendelijke groet,\n${s}`; } },
+      { id:'post_purchase_satisfaction', category:'Nazorg', title:'Tevredenheid na aankoop', desc:'Vraag na een aankoop of alles naar wens is en nodig uit tot reactie.', emailSubject:'Is alles naar wens na je aankoop?', buildMessage(d,a){ const n=d.customerName?`Hoi ${d.customerName}`:'Beste klant,'; const c=a.bedrijfNaam||'[bedrijfsnaam]'; const s=getSignatureLine(d,a); return `${n}\n\nWe hopen dat je tevreden bent met je aankoop bij ${c}.\n\nIs alles naar wens? We horen graag hoe je ervaring was.\n\nMet vriendelijke groet,\n${s}`; } },
+      { id:'order_confirmed', category:'Bestellingen', title:'Bestelling bevestigd', desc:'Bevestig aan de klant dat de bestelling goed is ontvangen en verwerkt wordt.', emailSubject:'Bevestiging van je bestelling', buildMessage(d,a){ const n=d.customerName?`Hoi ${d.customerName}`:'Beste klant,'; const c=a.bedrijfNaam||'[bedrijfsnaam]'; const s=getSignatureLine(d,a); const productText = d.productName ? `Wij hebben je bestelling van ${d.productName} goed ontvangen.` : 'Wij hebben je bestelling goed ontvangen.'; return `${n}\n\n${productText}\n\nWij gaan ermee aan de slag en houden je op de hoogte zodra je bestelling klaar is.\n\nMet vriendelijke groet,\n${s}`; } },
+      { id:'order_ready_pickup', category:'Bestellingen', title:'Bestelling klaar om op te halen', desc:'Laat een klant weten dat de bestelling in de winkel klaar ligt om opgehaald te worden.', emailSubject:'Je bestelling ligt klaar om op te halen', buildMessage(d,a){ const n=d.customerName?`Hoi ${d.customerName}`:'Beste klant,'; const c=a.bedrijfNaam||'[bedrijfsnaam]'; const s=getSignatureLine(d,a); const productText = d.productName ? `Je bestelde product, ${d.productName}, ligt voor je klaar in onze winkel om opgehaald te worden.` : 'Je bestelling ligt voor je klaar in onze winkel om opgehaald te worden.'; return `${n}\n\n${productText}\n\nKom gerust langs wanneer het jou uitkomt. Heb je nog vragen? Neem dan gerust contact op met ${c}.\n\nMet vriendelijke groet,\n${s}`; } }
+    ];
+
+    const OPTION_SECTIONS = [
+      { id:'recensie_beheer', title:'Recensie beheer', desc:'Vensters voor reviewverzoeken en klantbeoordelingen.', toolIds:['review_request'] },
+      { id:'afspraak_planner', title:'Afspraak planner', desc:'Berichten voor plannen, bevestigen en wijzigen van afspraken.', toolIds:['appointment_reminder'] },
+      { id:'na_berichten', title:'Na berichten', desc:'Opvolg- en nazorgberichten na een bezoek, aankoop of contactmoment.', toolIds:['post_purchase_satisfaction'] },
+      { id:'klant_opvolging', title:'Klant opvolging', desc:'Berichten om klanten op een nette manier opnieuw te benaderen.', toolIds:[] },
+      { id:'acties_aanbiedingen', title:'Acties & aanbiedingen', desc:'Campagneberichten, kortingsacties en promotionele updates.', toolIds:[] },
+      { id:'service_meldingen', title:'Service meldingen', desc:'Updates over service, onderhoud en praktische mededelingen.', toolIds:[] },
+      { id:'bestellingen_levering', title:'Bestellingen', desc:'Communicatie rond bestellingen, afhalen en leverstatus.', toolIds:['order_confirmed','order_ready_pickup'] },
+      { id:'contact_herinneringen', title:'Contact & herinneringen', desc:'Herinneringen, terugbelverzoeken en algemene contactberichten.', toolIds:[] }
+    ];
+
+    let openOptionSectionId = 'recensie_beheer';
+
+    const BUSINESS_TYPES = [
+      { id:'kledingwinkel', name:'Kledingwinkel', defaultTools:['review_request','store_invitation','new_collection','discount_card','personal_offer','thank_you_purchase'] },
+      { id:'supermarkt', name:'Supermarkt', defaultTools:['review_request','thank_you_purchase','discount_card','event_invitation','store_invitation','personal_offer'] },
+      { id:'kapsalon', name:'Kapsalon', defaultTools:['appointment_planning','review_request','visit_reminder','treatment_followup','personal_offer','thank_you_purchase'] },
+      { id:'restaurant', name:'Restaurant', defaultTools:['reservation_confirmation','event_invitation','review_request','thank_you_purchase','visit_reminder','personal_offer'] },
+      { id:'sportschool', name:'Sportschool', defaultTools:['appointment_planning','subscription_renewal','personal_offer','visit_reminder','review_request','event_invitation'] },
+      { id:'autobedrijf_garage', name:'Autobedrijf / garage', defaultTools:['service_reminder','appointment_planning','quote_followup','treatment_followup','review_request','personal_offer'] },
+      { id:'elektronicawinkel', name:'Elektronicawinkel', defaultTools:['review_request','pickup_order','new_collection','back_in_stock','personal_offer','thank_you_purchase'] },
+      { id:'bloemist', name:'Bloemist', defaultTools:['pickup_order','store_invitation','new_collection','event_invitation','thank_you_purchase','personal_offer'] },
+      { id:'makelaarskantoor', name:'Makelaarskantoor', defaultTools:['appointment_planning','quote_followup','visit_reminder','personal_offer','review_request','event_invitation'] },
+      { id:'schoonmaakbedrijf', name:'Schoonmaakbedrijf', defaultTools:['appointment_planning','quote_followup','service_reminder','thank_you_purchase','review_request','visit_reminder'] },
+      { id:'bouwbedrijf', name:'Bouwbedrijf', defaultTools:['quote_followup','appointment_planning','service_reminder','visit_reminder','thank_you_purchase','review_request'] },
+      { id:'webshop_ecommerce', name:'Webshop (e-commerce)', defaultTools:['pickup_order','back_in_stock','discount_card','review_request','thank_you_purchase','personal_offer'] },
+      { id:'fysiotherapiepraktijk', name:'Fysiotherapiepraktijk', defaultTools:['appointment_planning','visit_reminder','treatment_followup','review_request','personal_offer','service_reminder'] },
+      { id:'tandartspraktijk', name:'Tandartspraktijk', defaultTools:['appointment_planning','visit_reminder','treatment_followup','service_reminder','review_request','quote_followup'] },
+      { id:'marketingbureau', name:'Marketingbureau', defaultTools:['quote_followup','appointment_planning','personal_offer','event_invitation','thank_you_purchase','review_request'] },
+      { id:'it_bedrijf', name:'IT-bedrijf', defaultTools:['quote_followup','service_reminder','appointment_planning','personal_offer','thank_you_purchase','review_request'] },
+      { id:'kinderopvang', name:'Kinderopvang', defaultTools:['appointment_planning','visit_reminder','event_invitation','subscription_renewal','thank_you_purchase','review_request'] },
+      { id:'fotografiebedrijf', name:'Fotografiebedrijf', defaultTools:['booking_followup','appointment_planning','quote_followup','thank_you_purchase','review_request','event_invitation'] },
+      { id:'reisbureau', name:'Reisbureau', defaultTools:['booking_followup','appointment_planning','quote_followup','personal_offer','thank_you_purchase','review_request'] },
+      { id:'horecazaak', name:'Horecazaak (café / lunchroom)', defaultTools:['reservation_confirmation','event_invitation','review_request','personal_offer','thank_you_purchase','visit_reminder'] },
+      { id:'aquariumwinkel', name:'Aquarium winkel', defaultTools:['back_in_stock','store_invitation','new_collection','personal_offer','review_request','thank_you_purchase'] },
+      { id:'dierenkliniek', name:'Dierenkliniek', defaultTools:['appointment_planning','visit_reminder','treatment_followup','service_reminder','review_request','thank_you_purchase'] }
+    ];
+
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+      document.getElementById(pageId).classList.add('active');
+      document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
+      if (pageId === 'homePage') document.getElementById('navHomeBtn').classList.add('active');
+      if (pageId === 'optionsPage') document.getElementById('navOptionsBtn').classList.add('active');
+      if (pageId === 'accountPage') document.getElementById('navAccountBtn').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleLogoError(img) { img.style.display = 'none'; }
+    function logoutUser() {
+      localStorage.removeItem('berichter_logged_in_user');
+      window.location.href = 'login.html';
+    }
+    function getAccount() { return JSON.parse(localStorage.getItem(ACCOUNT_KEY) || '{}'); }
+    function getSettings() { return JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{"darkMode":false}'); }
+    function getEmployees() { return JSON.parse(localStorage.getItem(EMPLOYEES_KEY) || '[]'); }
+    function getToolInputs() { return JSON.parse(localStorage.getItem(TOOL_INPUTS_KEY) || '{}'); }
+    function saveToolInputs(inputs) { localStorage.setItem(TOOL_INPUTS_KEY, JSON.stringify(inputs)); updateAutoSaveStatus('Toolgegevens automatisch opgeslagen.'); }
+    function setValue(id, value) { const el = document.getElementById(id); if (el) el.value = value || ''; }
+    function getValue(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+    function updateAutoSaveStatus(text) { const el = document.getElementById('autoSaveStatus'); if (el) el.textContent = text; }
+
+    function populateBusinessTypes() {
+      const select = document.getElementById('bedrijfType');
+      select.innerHTML = '<option value="">Kies een soort bedrijf</option>';
+      BUSINESS_TYPES.forEach(type => {
+        const option = document.createElement('option');
+        option.value = type.id;
+        option.textContent = type.name;
+        select.appendChild(option);
+      });
+    }
+
+    function populateCategoryFilter() {
+      const select = document.getElementById('categoryFilter');
+      if (!select) return;
+      const categories = [...new Set(TOOL_DEFINITIONS.map(tool => tool.category))].sort((a,b) => a.localeCompare(b,'nl'));
+      select.innerHTML = '<option value="all">Alle categorieën</option>';
+      categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        select.appendChild(option);
+      });
+    }
+
+    function getBusinessTypeById(id) { return BUSINESS_TYPES.find(type => type.id === id) || null; }
+    function getDefaultSelectionForBusiness(typeId) {
+      const business = getBusinessTypeById(typeId);
+      if (!business) return ['review_request'];
+      return ['review_request'];
+    }
+
+    function applyBusinessTypeDefaults(typeId) {
+      const selection = getDefaultSelectionForBusiness(typeId);
+      localStorage.setItem(VISIBLE_TOOLS_KEY, JSON.stringify(selection));
+      renderOptions();
+      renderTools();
+      updateBusinessTypeNote();
+      updateDashboardStats();
+      updateAutoSaveStatus('Vensters zijn automatisch bijgewerkt op basis van het bedrijfstype.');
+    }
+
+    function updateBusinessTypeNote() {
+      const account = getAccount();
+      const business = getBusinessTypeById(account.bedrijfType);
+      const note = document.getElementById('activeBusinessTypeNote');
+      if (note) {
+        note.textContent = business
+          ? `Actief bedrijfstype: ${business.name}. Het recensie-venster staat actief op de homepagina.`
+          : 'Nog geen bedrijfstype geselecteerd.';
+      }
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatDateForMessage(value) {
+      if (!value) return '';
+      const [year, month, day] = String(value).split('-');
+      if (!year || !month || !day) return value;
+      return `${day}-${month}-${year}`;
+    }
+
+    function getSignatureLine(data, account) {
+      const companyName = account.bedrijfNaam || '[bedrijfsnaam]';
+      const helper = (data.helper || '').trim();
+      if (!helper) return `Team ${companyName}`;
+      if (helper === 'Team') return `Team ${companyName}`;
+      if (helper === 'Klantenservice') return `Klantenservice ${companyName}`;
+      return `${helper} - ${companyName}`;
+    }
+
+    function getLegacyToolMessages(toolId, data, account) {
+      if (toolId === 'appointment_reminder') {
+        const c = account.bedrijfNaam || '[bedrijfsnaam]';
+        const dateText = data.appointmentDate ? formatDateForMessage(data.appointmentDate) : null;
+        const timeText = data.appointmentTime || null;
+        return [
+          `Hoi ${data.customerName || ''}\n\nDit is een vriendelijke herinnering aan je afspraak bij ${c}.\n\nAls je nog vragen hebt of de afspraak wilt wijzigen, neem dan gerust contact met ons op.\n\nMet vriendelijke groet,\nTeam ${c}`.trim(),
+          `Beste klant,\n\nDit is een vriendelijke herinnering aan je afspraak bij ${c}.\n\nAls je nog vragen hebt of de afspraak wilt wijzigen, neem dan gerust contact met ons op.\n\nMet vriendelijke groet,\nTeam ${c}`,
+          `Beste klant,\n\nJe afspraak staat gepland op ${dateText || '[datum]'} om ${timeText || '[tijd]'}\n\nMocht je nog vragen hebben of de afspraak willen wijzigen, neem dan gerust contact op met ${c}.\n\nMet vriendelijke groet,\nTeam ${c}`,
+          `Beste klant,\n\nBij deze een herrinering dat uw afspraak gepland staat op ${dateText || '[datum]'} om ${timeText || '[tijd]'}\n\nMocht je nog vragen hebben of de afspraak willen wijzigen, neem dan gerust contact op met ${c}.\n\nMet vriendelijke groet,\nTeam ${c}`
+        ];
+      }
+      return [];
+    }
+
+    function renderLinkOrFallback(value) {
+      if (!value) return 'Nog niet ingesteld';
+      const safeValue = escapeHtml(value);
+      if (/^https?:\/\//i.test(value)) return `<a class="summary-link" href="${safeValue}" target="_blank" rel="noopener noreferrer">${safeValue}</a>`;
+      return safeValue;
+    }
+
+    function getCurrentLogoPath() {
+      const account = getAccount();
+      const settings = getSettings();
+      if (settings.darkMode) return 'afbeeldingen/logo_png_wit.png';
+      return account.logoPath || 'afbeeldingen/logo_png_zwart.png';
+    }
+
+    function updateLogoEverywhere() {
+      const path = getCurrentLogoPath();
+      const logo = document.getElementById('brandLogo');
+      if (logo) { logo.src = path; logo.style.display = ''; }
+    }
+
+    function renderAccountView() {
+      const account = getAccount();
+      const business = getBusinessTypeById(account.bedrijfType);
+      document.getElementById('viewBedrijfNaam').textContent = account.bedrijfNaam || 'Nog niet ingesteld';
+      document.getElementById('viewBedrijfType').textContent = business ? business.name : 'Nog niet ingesteld';
+      document.getElementById('viewLogoPath').innerHTML = 'Standaard logo actief';
+      document.getElementById('viewWebsiteLink').innerHTML = renderLinkOrFallback(account.websiteLink);
+      document.getElementById('viewGoogleReviewLink').innerHTML = renderLinkOrFallback(account.googleReviewLink);
+      document.getElementById('viewFacebookLink').innerHTML = renderLinkOrFallback(account.facebookLink);
+      document.getElementById('viewInstagramLink').innerHTML = renderLinkOrFallback(account.instagramLink);
+      document.getElementById('viewTiktokLink').innerHTML = renderLinkOrFallback(account.tiktokLink);
+      updateBusinessTypeNote();
+      updateLogoEverywhere();
+    }
+
+    function loadAccountToForm() {
+      const account = getAccount();
+      setValue('bedrijfNaam', account.bedrijfNaam || '');
+      setValue('bedrijfType', account.bedrijfType || '');
+      setValue('websiteLink', account.websiteLink || '');
+      setValue('googleReviewLink', account.googleReviewLink || '');
+      setValue('facebookLink', account.facebookLink || '');
+      setValue('instagramLink', account.instagramLink || '');
+      setValue('tiktokLink', account.tiktokLink || '');
+      renderAccountView();
+      refreshAllToolMessages();
+    }
+
+    function saveAccount() {
+      const previous = getAccount();
+      const account = {
+        bedrijfNaam: getValue('bedrijfNaam'),
+        bedrijfType: getValue('bedrijfType'),
+        websiteLink: getValue('websiteLink'),
+        googleReviewLink: getValue('googleReviewLink'),
+        facebookLink: getValue('facebookLink'),
+        instagramLink: getValue('instagramLink'),
+        tiktokLink: getValue('tiktokLink')
+      };
+      localStorage.setItem(ACCOUNT_KEY, JSON.stringify(account));
+      if (account.bedrijfType && account.bedrijfType !== previous.bedrijfType) applyBusinessTypeDefaults(account.bedrijfType);
+      renderAccountView();
+      refreshAllToolMessages();
+      renderTools();
+      updateDashboardStats();
+      updateAutoSaveStatus('Accountgegevens opgeslagen.');
+      showPage('homePage');
+    }
+
+    function clearAccount() {
+      localStorage.removeItem(ACCOUNT_KEY);
+      setValue('bedrijfNaam', '');
+      setValue('bedrijfType', '');
+      setValue('websiteLink', '');
+      setValue('googleReviewLink', '');
+      setValue('facebookLink', '');
+      setValue('instagramLink', '');
+      setValue('tiktokLink', '');
+      renderAccountView();
+      refreshAllToolMessages();
+      renderTools();
+      updateDashboardStats();
+      updateAutoSaveStatus('Accountgegevens zijn verwijderd.');
+      showPage('homePage');
+    }
+
+    function autoSaveAccountField() {
+      const account = {
+        ...getAccount(),
+        bedrijfNaam: getValue('bedrijfNaam'),
+        bedrijfType: getValue('bedrijfType'),
+        websiteLink: getValue('websiteLink'),
+        googleReviewLink: getValue('googleReviewLink'),
+        facebookLink: getValue('facebookLink'),
+        instagramLink: getValue('instagramLink'),
+        tiktokLink: getValue('tiktokLink')
+      };
+      localStorage.setItem(ACCOUNT_KEY, JSON.stringify(account));
+      renderAccountView();
+      refreshAllToolMessages();
+      updateAutoSaveStatus('Accountgegevens automatisch opgeslagen.');
+    }
+
+    function getDefaultVisibleTools() {
+      return ['review_request'];
+    }
+
+    function getResetSelection() {
+      const account = getAccount();
+      return account.bedrijfType ? getDefaultSelectionForBusiness(account.bedrijfType) : getDefaultVisibleTools();
+    }
+
+    function getVisibleTools() {
+      const saved = JSON.parse(localStorage.getItem(VISIBLE_TOOLS_KEY) || 'null');
+      if (saved && Array.isArray(saved) && saved.length) return saved;
+      return getDefaultVisibleTools();
+    }
+
+    function ensureInitialVisibleTools() {
+      const saved = JSON.parse(localStorage.getItem(VISIBLE_TOOLS_KEY) || 'null');
+      if (!saved || !Array.isArray(saved) || !saved.length) {
+        localStorage.setItem(VISIBLE_TOOLS_KEY, JSON.stringify(getDefaultVisibleTools()));
+      }
+    }
+
+    function setVisibleTools(selected) {
+      const normalized = [...new Set(selected)].filter(toolId => TOOL_DEFINITIONS.some(tool => tool.id === toolId));
+      localStorage.setItem(VISIBLE_TOOLS_KEY, JSON.stringify(normalized.length ? normalized : getDefaultVisibleTools()));
+    }
+
+    function selectAllTools() {
+      setVisibleTools(TOOL_DEFINITIONS.map(tool => tool.id));
+      renderOptions();
+      renderTools();
+      updateDashboardStats();
+      updateAutoSaveStatus('Alle beschikbare vensters zijn automatisch geselecteerd.');
+    }
+    function resetToolSelection() {
+      const selection = getResetSelection();
+      localStorage.setItem(VISIBLE_TOOLS_KEY, JSON.stringify(selection));
+      renderOptions();
+      renderTools();
+      updateDashboardStats();
+      updateAutoSaveStatus(
+        getAccount().bedrijfType
+          ? 'Selectie teruggezet naar het recensie-venster van dit bedrijfstype.'
+          : 'Selectie teruggezet naar het standaard recensie-venster.'
+      );
+    }
+
+    function autoSaveVisibleTools(toolId, checked) {
+      const selected = new Set(getVisibleTools());
+      if (checked) selected.add(toolId);
+      else selected.delete(toolId);
+      setVisibleTools([...selected]);
+      renderTools();
+      updateDashboardStats();
+      updateAutoSaveStatus('Vensterselectie automatisch opgeslagen.');
+    }
+
+    function reorderVisibleTools(sourceToolId, targetToolId) {
+      if (!sourceToolId || !targetToolId || sourceToolId === targetToolId) return;
+      const visibleTools = [...getVisibleTools()];
+      const sourceIndex = visibleTools.indexOf(sourceToolId);
+      const targetIndex = visibleTools.indexOf(targetToolId);
+      if (sourceIndex === -1 || targetIndex === -1) return;
+      const [movedTool] = visibleTools.splice(sourceIndex, 1);
+      visibleTools.splice(targetIndex, 0, movedTool);
+      setVisibleTools(visibleTools);
+      renderOptions();
+      renderTools();
+      updateDashboardStats();
+      updateAutoSaveStatus('De volgorde van de homepagina is automatisch opgeslagen.');
+    }
+
+    function toggleOptionSection(sectionId) {
+      openOptionSectionId = openOptionSectionId === sectionId ? null : sectionId;
+      renderOptions();
+    }
+
+    function renderOptions() {
+      const container = document.getElementById('optionsList');
+      const nav = document.getElementById('optionsNav');
+      const visible = new Set(getVisibleTools());
+      container.innerHTML = '';
+      nav.innerHTML = '';
+
+      OPTION_SECTIONS.forEach(section => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `option-nav-btn${openOptionSectionId === section.id ? ' active' : ''}`;
+        button.textContent = section.title;
+        button.addEventListener('click', () => toggleOptionSection(section.id));
+        nav.appendChild(button);
+      });
+
+      if (!openOptionSectionId) {
+        container.innerHTML = '<div class="option-empty-state">Kies links een kopje om de bijbehorende vensters te bekijken. Klik nog een keer op hetzelfde kopje om de inhoud weer te sluiten.</div>';
+        return;
+      }
+
+      const section = OPTION_SECTIONS.find(item => item.id === openOptionSectionId);
+      if (!section) return;
+
+      const sectionEl = document.createElement('section');
+      sectionEl.className = 'option-section';
+
+      const availableTools = section.toolIds
+        .map(toolId => TOOL_DEFINITIONS.find(tool => tool.id === toolId))
+        .filter(Boolean);
+
+      sectionEl.innerHTML = `
+        <div class="option-section-head">
+          <h3 class="option-section-title">${section.title}</h3>
+          <p class="option-section-text">${section.desc}</p>
+        </div>
+        <div class="option-section-body"></div>
+      `;
+
+      const body = sectionEl.querySelector('.option-section-body');
+
+      if (!availableTools.length) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'option-placeholder';
+        placeholder.textContent = 'Nog geen vensters toegevoegd in deze rubriek.';
+        body.appendChild(placeholder);
+      } else {
+        availableTools.forEach(tool => {
+          const card = document.createElement('label');
+          card.className = 'checkbox-card';
+          card.innerHTML = `<input type="checkbox" class="option-checkbox" value="${tool.id}" ${visible.has(tool.id) ? 'checked' : ''}><div><strong>${tool.title}</strong><span>${tool.desc}<br><small><strong>Categorie:</strong> ${tool.category}</small></span></div>`;
+          if (visible.has(tool.id)) card.classList.add('checked');
+          const checkbox = card.querySelector('.option-checkbox');
+          checkbox.addEventListener('change', (event) => {
+            card.classList.toggle('checked', event.target.checked);
+            checkbox.classList.remove('pop');
+            if (event.target.checked) {
+              window.requestAnimationFrame(() => checkbox.classList.add('pop'));
+            }
+            autoSaveVisibleTools(tool.id, event.target.checked);
+          });
+          checkbox.addEventListener('animationend', () => checkbox.classList.remove('pop'));
+          body.appendChild(card);
+        });
+      }
+
+      container.appendChild(sectionEl);
+
+      const visibleTools = getVisibleTools()
+        .map(toolId => TOOL_DEFINITIONS.find(tool => tool.id === toolId))
+        .filter(Boolean);
+
+      const orderSection = document.createElement('section');
+      orderSection.className = 'order-manager';
+      orderSection.innerHTML = `
+        <div>
+          <h4>Volgorde op homepagina</h4>
+          <p>Sleep actieve vensters omhoog of omlaag. De volgorde wordt direct opgeslagen.</p>
+        </div>
+      `;
+
+      if (!visibleTools.length) {
+        const empty = document.createElement('div');
+        empty.className = 'option-empty-state';
+        empty.textContent = 'Er zijn nog geen actieve vensters geselecteerd.';
+        orderSection.appendChild(empty);
+      } else {
+        visibleTools.forEach((tool, index) => {
+          const item = document.createElement('div');
+          item.className = 'order-item';
+          item.draggable = true;
+          item.dataset.toolId = tool.id;
+          item.innerHTML = `
+            <div class="drag-handle" aria-hidden="true">⋮⋮</div>
+            <div>
+              <strong>${tool.title}</strong>
+              <span>${tool.category}</span>
+            </div>
+            <div></div>
+          `;
+          item.addEventListener('dragstart', (event) => {
+            item.classList.add('dragging');
+            event.dataTransfer.setData('text/plain', tool.id);
+            event.dataTransfer.effectAllowed = 'move';
+          });
+          item.addEventListener('dragend', () => {
+            item.classList.remove('dragging');
+            orderSection.querySelectorAll('.order-item').forEach(el => el.classList.remove('drag-over'));
+          });
+          item.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            item.classList.add('drag-over');
+            event.dataTransfer.dropEffect = 'move';
+          });
+          item.addEventListener('dragleave', () => {
+            item.classList.remove('drag-over');
+          });
+          item.addEventListener('drop', (event) => {
+            event.preventDefault();
+            item.classList.remove('drag-over');
+            const sourceToolId = event.dataTransfer.getData('text/plain');
+            reorderVisibleTools(sourceToolId, tool.id);
+          });
+          orderSection.appendChild(item);
+        });
+      }
+
+      container.appendChild(orderSection);
+    }
+
+    function getToolDataFromCard(card) {
+      return {
+        customerName: card.querySelector('.field-customer-name').value.trim(),
+        phone: card.querySelector('.field-phone').value.trim(),
+        email: card.querySelector('.field-email').value.trim(),
+        helper: card.querySelector('.field-helper-select').value.trim(),
+        appointmentDate: card.querySelector('.field-appointment-date')?.value || '',
+        appointmentTime: card.querySelector('.field-appointment-time')?.value || '',
+        productName: card.querySelector('.field-product-name')?.value.trim() || ''
+      };
+    }
+
+    function saveToolCardState(card) {
+      const toolId = card.dataset.toolId;
+      const inputs = getToolInputs();
+      inputs[toolId] = {
+        customerName: card.querySelector('.field-customer-name').value,
+        phone: card.querySelector('.field-phone').value,
+        email: card.querySelector('.field-email').value,
+        helper: card.querySelector('.field-helper-select').value,
+        appointmentDate: card.querySelector('.field-appointment-date')?.value || '',
+        appointmentTime: card.querySelector('.field-appointment-time')?.value || '',
+        productName: card.querySelector('.field-product-name')?.value || '',
+        message: card.querySelector('.field-message').value
+      };
+      saveToolInputs(inputs);
+    }
+
+    function updateToolMessage(card, tool) {
+      const messageField = card.querySelector('.field-message');
+      if (document.activeElement !== messageField) {
+        messageField.value = tool.buildMessage(getToolDataFromCard(card), getAccount());
+        saveToolCardState(card);
+      }
+    }
+
+    function showToolStatus(card, message, type = 'success') {
+      const box = card.querySelector('.tool-status');
+      box.className = 'status tool-status ' + type;
+      box.textContent = message;
+    }
+
+    function sanitizePhone(phone) { return (phone || '').replace(/\s+/g, '').replace(/[^0-9+]/g, ''); }
+    function isLikelyValidPhone(phone) { const clean = sanitizePhone(phone).replace('+', ''); return clean.length >= 10 && clean.length <= 15; }
+    function formatWhatsAppPhone(phone) {
+      let clean = sanitizePhone(phone);
+      if (!clean) return '';
+      if (clean.startsWith('+')) return clean.replace('+', '');
+      if (clean.startsWith('0031')) return clean.replace(/^00/, '');
+      if (clean.startsWith('06')) return '31' + clean.slice(1);
+      if (clean.startsWith('0')) return '31' + clean.slice(1);
+      return clean;
+    }
+    function openWhatsApp(phone, message) { window.open('https://wa.me/' + encodeURIComponent(formatWhatsAppPhone(phone)) + '?text=' + encodeURIComponent(message), '_blank'); }
+    function isValidEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email || ''); }
+    function openEmail(email, subject, message) { window.location.href = 'mailto:' + encodeURIComponent(email) + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(message); }
+
+    function refreshAllToolMessages() {
+      document.querySelectorAll('.tool-card').forEach(card => {
+        const tool = TOOL_DEFINITIONS.find(t => t.id === card.dataset.toolId);
+        if (tool) updateToolMessage(card, tool);
+      });
+    }
+
+    function buildHelperOptions(select, selectedValue = '') {
+      const employees = getEmployees();
+      let html = '<option value="">Kies medewerker of team</option><option value="Team">Team</option><option value="Klantenservice">Klantenservice</option>';
+      employees.forEach(emp => {
+        html += `<option value="${escapeHtml(emp.name)}">${escapeHtml(emp.name)}</option>`;
+      });
+      select.innerHTML = html;
+      if (selectedValue) select.value = selectedValue;
+    }
+
+    function renderTools() {
+      const container = document.getElementById('toolsContainer');
+      const visibleIds = new Set(getVisibleTools());
+      const template = document.getElementById('toolCardTemplate');
+      const toolInputs = getToolInputs();
+      const searchValue = (document.getElementById('toolSearch')?.value || '').trim().toLowerCase();
+      const selectedCategory = document.getElementById('categoryFilter')?.value || 'all';
+      const sortValue = document.getElementById('sortTools')?.value || 'default';
+      container.innerHTML = '';
+
+      let tools = getVisibleTools()
+        .map(toolId => TOOL_DEFINITIONS.find(tool => tool.id === toolId))
+        .filter(Boolean);
+      if (searchValue) tools = tools.filter(tool => tool.title.toLowerCase().includes(searchValue) || tool.desc.toLowerCase().includes(searchValue) || tool.category.toLowerCase().includes(searchValue));
+      if (selectedCategory !== 'all') tools = tools.filter(tool => tool.category === selectedCategory);
+      if (sortValue === 'alphabetical') tools.sort((a,b) => a.title.localeCompare(b.title,'nl'));
+      else if (sortValue === 'category') tools.sort((a,b) => `${a.category} ${a.title}`.localeCompare(`${b.category} ${b.title}`,'nl'));
+
+      tools.forEach((tool, index) => {
+        const fragment = template.content.cloneNode(true);
+        const card = fragment.querySelector('.tool-card');
+        card.dataset.toolId = tool.id;
+        fragment.querySelector('.tool-title').textContent = tool.title;
+        fragment.querySelector('.tool-desc').textContent = tool.desc;
+        fragment.querySelector('.tool-category').textContent = tool.category;
+        fragment.querySelector('.tool-strip').classList.add(STRIP_CLASSES[index % STRIP_CLASSES.length]);
+
+        const nameField = fragment.querySelector('.field-customer-name');
+        const phoneField = fragment.querySelector('.field-phone');
+        const emailField = fragment.querySelector('.field-email');
+        const helperSelect = fragment.querySelector('.field-helper-select');
+        const appointmentDateField = fragment.querySelector('.field-appointment-date');
+        const appointmentTimeField = fragment.querySelector('.field-appointment-time');
+        const productNameField = fragment.querySelector('.field-product-name');
+        const appointmentOnlyFields = fragment.querySelectorAll('.appointment-only');
+        const productOnlyFields = fragment.querySelectorAll('.product-only');
+        const messageField = fragment.querySelector('.field-message');
+        const whatsappBtn = fragment.querySelector('.btn-whatsapp');
+        const emailBtn = fragment.querySelector('.btn-email');
+        const clearBtn = fragment.querySelector('.btn-clear');
+        const savedData = toolInputs[tool.id] || {};
+
+        nameField.value = savedData.customerName || '';
+        phoneField.value = savedData.phone || '';
+        emailField.value = savedData.email || '';
+        buildHelperOptions(helperSelect, savedData.helper || '');
+        appointmentDateField.value = savedData.appointmentDate || '';
+        appointmentTimeField.value = savedData.appointmentTime || '';
+        productNameField.value = savedData.productName || '';
+        const normalizedToolData = {
+          customerName: savedData.customerName || '',
+          phone: savedData.phone || '',
+          email: savedData.email || '',
+          helper: savedData.helper || '',
+          appointmentDate: savedData.appointmentDate || '',
+          appointmentTime: savedData.appointmentTime || '',
+          productName: savedData.productName || ''
+        };
+        const currentDefaultMessage = tool.buildMessage(normalizedToolData, getAccount());
+        const legacyMessages = getLegacyToolMessages(tool.id, normalizedToolData, getAccount());
+        const shouldReplaceSavedMessage = savedData.message && legacyMessages.includes(savedData.message.trim());
+        messageField.value = shouldReplaceSavedMessage ? currentDefaultMessage : (savedData.message || '');
+
+        const isAppointmentTool = tool.id === 'appointment_reminder';
+        const isProductTool = tool.id === 'order_ready_pickup';
+        appointmentOnlyFields.forEach(field => { field.hidden = !isAppointmentTool; });
+        productOnlyFields.forEach(field => { field.hidden = !isProductTool; });
+
+        const syncMessage = () => updateToolMessage(whatsappBtn.closest('.tool-card'), tool);
+        [nameField, phoneField, emailField, helperSelect, appointmentDateField, appointmentTimeField, productNameField].forEach(field => {
+          field.addEventListener('input', () => { syncMessage(); saveToolCardState(whatsappBtn.closest('.tool-card')); });
+          field.addEventListener('change', () => { syncMessage(); saveToolCardState(whatsappBtn.closest('.tool-card')); });
+        });
+        messageField.addEventListener('input', () => saveToolCardState(whatsappBtn.closest('.tool-card')));
+
+        whatsappBtn.addEventListener('click', () => {
+          const currentCard = whatsappBtn.closest('.tool-card');
+          const phone = currentCard.querySelector('.field-phone').value.trim();
+          const message = currentCard.querySelector('.field-message').value.trim() || tool.buildMessage(getToolDataFromCard(currentCard), getAccount());
+          if (!phone) return showToolStatus(currentCard, 'Vul eerst een telefoonnummer van de klant in.', 'error');
+          if (!isLikelyValidPhone(phone)) return showToolStatus(currentCard, 'Het telefoonnummer lijkt niet geldig.', 'error');
+          openWhatsApp(phone, message);
+          showToolStatus(currentCard, 'WhatsApp wordt geopend met het ingevulde bericht.', 'success');
+        });
+
+        emailBtn.addEventListener('click', () => {
+          const currentCard = emailBtn.closest('.tool-card');
+          const email = currentCard.querySelector('.field-email').value.trim();
+          const message = currentCard.querySelector('.field-message').value.trim() || tool.buildMessage(getToolDataFromCard(currentCard), getAccount());
+          if (!email) return showToolStatus(currentCard, 'Vul eerst een e-mailadres van de klant in.', 'error');
+          if (!isValidEmail(email)) return showToolStatus(currentCard, 'Het e-mailadres lijkt niet geldig.', 'error');
+          openEmail(email, tool.emailSubject, message);
+          showToolStatus(currentCard, 'Je e-mailprogramma wordt geopend met het ingevulde bericht.', 'success');
+        });
+
+        clearBtn.addEventListener('click', () => {
+          const currentCard = clearBtn.closest('.tool-card');
+          currentCard.querySelector('.field-customer-name').value = '';
+          currentCard.querySelector('.field-phone').value = '';
+          currentCard.querySelector('.field-email').value = '';
+          currentCard.querySelector('.field-helper-select').value = '';
+          currentCard.querySelector('.field-appointment-date').value = '';
+          currentCard.querySelector('.field-appointment-time').value = '';
+          currentCard.querySelector('.field-product-name').value = '';
+          currentCard.querySelector('.field-message').value = tool.buildMessage(getToolDataFromCard(currentCard), getAccount());
+          saveToolCardState(currentCard);
+          showToolStatus(currentCard, 'De velden zijn leeggemaakt.', 'success');
+        });
+
+        container.appendChild(fragment);
+        const appendedCard = container.lastElementChild;
+        if (!savedData.message) updateToolMessage(appendedCard, tool);
+      });
+
+      if (!tools.length) container.innerHTML = '<div class="empty-state">Geen tools gevonden met deze filters. Pas de zoekopdracht of categorie aan.</div>';
+      updateDashboardStats();
+    }
+
+    function updateDashboardStats() {
+      const visibleToolsCount = document.getElementById('visibleToolsCount');
+      const employeeCount = document.getElementById('employeeCount');
+      const standardToolCount = document.getElementById('standardToolCount');
+      if (visibleToolsCount) visibleToolsCount.textContent = getVisibleTools().length;
+      if (employeeCount) employeeCount.textContent = getEmployees().length;
+      if (standardToolCount) standardToolCount.textContent = STANDARD_TOOL_IDS.length;
+    }
+
+    function saveEmployees(employees) {
+      localStorage.setItem(EMPLOYEES_KEY, JSON.stringify(employees));
+      renderEmployees();
+      renderTools();
+      updateDashboardStats();
+      updateAutoSaveStatus('Teamgegevens opgeslagen.');
+    }
+
+    function addEmployee() {
+      const name = getValue('employeeName');
+      const role = getValue('employeeRole');
+      const email = getValue('employeeEmail');
+      if (!name) return updateAutoSaveStatus('Vul eerst een medewerkernaam in.');
+      const employees = getEmployees();
+      employees.push({ name, role, email });
+      saveEmployees(employees);
+      setValue('employeeName', '');
+      setValue('employeeRole', '');
+      setValue('employeeEmail', '');
+    }
+
+    function removeEmployee(index) { const employees = getEmployees(); employees.splice(index,1); saveEmployees(employees); }
+    function clearEmployees() { localStorage.removeItem(EMPLOYEES_KEY); renderEmployees(); renderTools(); updateDashboardStats(); updateAutoSaveStatus('Team is leeggemaakt.'); }
+
+    function renderEmployees() {
+      const container = document.getElementById('employeeList');
+      const employees = getEmployees();
+      container.innerHTML = '';
+      if (!employees.length) return container.innerHTML = '<div class="empty-state">Nog geen medewerkers toegevoegd.</div>';
+      employees.forEach((employee, index) => {
+        const item = document.createElement('div');
+        item.className = 'employee-item';
+        item.innerHTML = `<div class="employee-meta"><strong>${escapeHtml(employee.name)}</strong><span>${employee.role ? escapeHtml(employee.role) : 'Geen rol opgegeven'}</span><span>${employee.email ? escapeHtml(employee.email) : 'Geen e-mail opgegeven'}</span></div><div><button class="btn btn-black" type="button">Verwijderen</button></div>`;
+        item.querySelector('button').addEventListener('click', () => removeEmployee(index));
+        container.appendChild(item);
+      });
+    }
+
+    function toggleDarkMode() {
+      const settings = getSettings();
+      settings.darkMode = !settings.darkMode;
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+      applySettings();
+      updateAutoSaveStatus(settings.darkMode ? 'Donkere modus ingeschakeld.' : 'Lichte modus ingeschakeld.');
+    }
+
+    function applySettings() {
+      const settings = getSettings();
+      const columns = settings.homeColumns === 2 ? 2 : 3;
+      document.body.classList.toggle('dark-mode', !!settings.darkMode);
+      document.body.classList.remove('columns-2', 'columns-3');
+      document.body.classList.add(`columns-${columns}`);
+      document.getElementById('darkModeToggle').textContent = settings.darkMode ? '☀️ Lichte modus' : '🌙 Donkere modus';
+      document.documentElement.style.setProperty('--tools-columns', String(columns));
+      document.querySelectorAll('.layout-btn').forEach(btn => btn.classList.toggle('active', Number(btn.dataset.columns) === columns));
+      updateLogoEverywhere();
+    }
+
+    function setHomeColumns(columns) {
+      const settings = getSettings();
+      settings.homeColumns = columns;
+      localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+      applySettings();
+      updateAutoSaveStatus(`Homepagina ingesteld op ${columns} kolommen.`);
+    }
+
+    function printCurrentPage() { window.print(); }
+
+    function exportCSV() {
+      const account = getAccount();
+      const employees = getEmployees();
+      const visibleTools = getVisibleTools();
+      const rows = [
+        ['Type','Naam','Waarde'],
+        ['Account','Bedrijfsnaam',account.bedrijfNaam || ''],
+        ['Account','Soort bedrijf',account.bedrijfType || ''],
+        ['Account','Website',account.websiteLink || ''],
+        ['Account','Google review',account.googleReviewLink || ''],
+        ['Account','Facebook',account.facebookLink || ''],
+        ['Account','Instagram',account.instagramLink || ''],
+        ['Account','TikTok',account.tiktokLink || ''],
+        ['Tools','Actieve tool IDs',visibleTools.join(' | ')],
+        ['Tools','Aantal actieve tools',String(visibleTools.length)],
+        ['Tools','Aantal standaardberichten',String(STANDARD_TOOL_IDS.length)]
+      ];
+      employees.forEach((employee, index) => rows.push(['Medewerker', `Medewerker ${index + 1}`, `${employee.name} | ${employee.role || ''} | ${employee.email || ''}`]));
+      const csv = rows.map(row => row.map(cell => `"${String(cell).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'berichter-export.csv';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      updateAutoSaveStatus('CSV-export gedownload.');
+    }
+
+    function bindAccountAutosave() {
+      ['bedrijfNaam','bedrijfType','websiteLink','googleReviewLink','facebookLink','instagramLink','tiktokLink'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('input', autoSaveAccountField);
+        el.addEventListener('change', () => {
+          const prevAccount = getAccount();
+          autoSaveAccountField();
+          if (id === 'bedrijfType') {
+            const newType = getValue('bedrijfType');
+            if (newType && newType !== prevAccount.bedrijfType) applyBusinessTypeDefaults(newType);
+          }
+        });
+      });
+    }
+
+    ensureInitialVisibleTools();
+    populateBusinessTypes();
+    populateCategoryFilter();
+    applySettings();
+    bindAccountAutosave();
+    document.getElementById('darkModeToggle').addEventListener('click', toggleDarkMode);
+    renderOptions();
+    loadAccountToForm();
+    renderEmployees();
+    renderTools();
+    renderAccountView();
+    updateDashboardStats();
+  </script>
+</body>
+</html>
