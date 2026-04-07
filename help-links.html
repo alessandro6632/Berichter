@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hulp bij links</title>
+  <style>
+    :root {
+      --bg: #ece9e1;
+      --surface: #f8f7f3;
+      --text: #171715;
+      --line: rgba(23,23,21,0.12);
+      --accent: #ea7f67;
+      --shadow: 0 18px 34px rgba(29,29,27,0.10);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #f6f5f1 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+
+    .wrap {
+      width: min(880px, calc(100% - 32px));
+      margin: 32px auto;
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    h1, h2 {
+      margin: 0 0 10px;
+      letter-spacing: -0.03em;
+    }
+
+    p {
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    .tip {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(234,127,103,0.10);
+      border: 1px solid rgba(234,127,103,0.18);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Hulp bij het invullen van links</h1>
+      <p>Op deze pagina zie je kort welke link je per veld het beste kunt gebruiken. Kopieer steeds de volledige URL uit je browser en plak die in het juiste invulveld binnen BERICHTER.</p>
+    </div>
+
+    <div class="card" id="website-link">
+      <h2>Website link</h2>
+      <p>Gebruik hier de hoofdpagina van je website, bijvoorbeeld `https://www.jouwbedrijf.nl`. Open je website in de browser en kopieer de volledige link uit de adresbalk.</p>
+    </div>
+
+    <div class="card" id="facebook-link">
+      <h2>Facebook link</h2>
+      <p>Gebruik de link naar je zakelijke Facebook-pagina. Open je pagina op Facebook en kopieer de URL uit de adresbalk, bijvoorbeeld `https://www.facebook.com/jouwpagina`.</p>
+    </div>
+
+    <div class="card" id="instagram-link">
+      <h2>Instagram link</h2>
+      <p>Gebruik de link naar je Instagram-profiel, bijvoorbeeld `https://www.instagram.com/jouwaccount/`. Open je profiel en kopieer de volledige URL.</p>
+    </div>
+
+    <div class="card" id="tiktok-link">
+      <h2>TikTok link</h2>
+      <p>Gebruik de link naar je TikTok-profiel, bijvoorbeeld `https://www.tiktok.com/@jouwaccount`. Open je profiel en kopieer de volledige link.</p>
+      <div class="tip">Tip: controleer altijd even of de link naar het juiste bedrijfsprofiel verwijst en niet naar een persoonlijke testpagina.</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -143,6 +143,22 @@
       flex-wrap: wrap;
     }
 
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 18px;
+      font-size: 16px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
     .nav-link,
     .toggle-btn {
       border: 0;
@@ -245,6 +261,290 @@
     .account-form { grid-template-columns: 1fr; }
     .mini-info,
     .stats-grid { grid-template-columns: repeat(3, 1fr); }
+
+    .landing-hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .hero-main {
+      position: relative;
+      overflow: hidden;
+      min-height: 360px;
+      background: linear-gradient(135deg, rgba(234,127,103,0.92) 0%, rgba(127,196,209,0.86) 58%, rgba(239,202,95,0.84) 100%);
+      color: #171715;
+    }
+
+    .hero-main::after {
+      content: "";
+      position: absolute;
+      right: -50px;
+      bottom: -70px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.22);
+      filter: blur(4px);
+    }
+
+    .hero-copy,
+    .hero-side {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-copy {
+      padding: 34px;
+      display: grid;
+      gap: 16px;
+      align-content: center;
+    }
+
+    .hero-kicker {
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      opacity: 0.72;
+    }
+
+    .hero-title {
+      margin: 0;
+      max-width: 680px;
+      font-size: 56px;
+      line-height: 0.95;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+    }
+
+    .hero-text {
+      margin: 0;
+      max-width: 620px;
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-stat,
+    .landing-panel,
+    .landing-step {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-stat {
+      min-height: 172px;
+      padding: 24px;
+      display: grid;
+      gap: 8px;
+      align-content: center;
+    }
+
+    .hero-visual {
+      position: relative;
+      overflow: hidden;
+      min-height: 220px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      background: var(--surface);
+    }
+
+    .hero-visual img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-stat strong,
+    .landing-panel strong,
+    .landing-step strong {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-stat span,
+    .landing-panel p,
+    .landing-step p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      opacity: 0.82;
+    }
+
+    .landing-feature-grid,
+    .landing-steps {
+      display: grid;
+      gap: 18px;
+      margin-top: 20px;
+    }
+
+    .landing-feature-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .landing-panel,
+    .landing-step {
+      padding: 22px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .landing-steps {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: rgba(234,127,103,0.16);
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .usage-banner-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .upgrade-hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .upgrade-main,
+    .upgrade-side {
+      display: grid;
+      gap: 18px;
+    }
+
+    .price-card {
+      padding: 26px;
+      border-radius: 24px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 12px;
+    }
+
+    .price-tag {
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.7;
+    }
+
+    .price-title {
+      margin: 0;
+      font-size: 40px;
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+    }
+
+    .price-copy {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.75;
+      opacity: 0.84;
+    }
+
+    .price-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .price-list li {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: var(--surface-2);
+      border: 1px solid var(--line-soft);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .plan-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .plan-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 20px;
+      background: var(--surface-2);
+      display: grid;
+      gap: 10px;
+    }
+
+    .plan-card.active {
+      border-color: rgba(234,127,103,0.42);
+      box-shadow: 0 16px 28px rgba(234,127,103,0.14);
+      background: rgba(234,127,103,0.10);
+    }
+
+    .plan-card strong {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .plan-card p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.7;
+      opacity: 0.82;
+    }
+
+    .plan-meta {
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.66;
+    }
+
+    .tool-note {
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(215,76,76,0.14);
+      border: 1px solid rgba(215,76,76,0.32);
+      color: #8f1f1f;
+      font-size: 13px;
+      line-height: 1.6;
+      font-weight: 700;
+    }
+
+    .field-locked {
+      opacity: 0.66;
+      cursor: not-allowed;
+    }
 
     .label-row {
       display: flex;
@@ -468,6 +768,205 @@
 
     .drag-handle:active {
       cursor: grabbing;
+    }
+
+    .remove-tool-btn {
+      border: 1px solid rgba(215,76,76,0.24);
+      background: rgba(215,76,76,0.10);
+      color: #8f1f1f;
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .remove-tool-btn:hover {
+      background: rgba(215,76,76,0.18);
+      transform: translateY(-1px);
+    }
+
+    .customers-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .customers-search-wrap {
+      flex: 1 1 420px;
+      min-width: 280px;
+    }
+
+    .customers-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .customer-row {
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: var(--surface-2);
+      border: 1px solid var(--line-soft);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .customer-row:hover {
+      transform: translateY(-1px);
+      border-color: rgba(234,127,103,0.28);
+      box-shadow: 0 14px 24px rgba(29,29,27,0.08);
+    }
+
+    .customer-row-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .customer-name {
+      margin: 0 0 4px;
+      font-size: 18px;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+    }
+
+    .customer-subtitle {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.6;
+      opacity: 0.78;
+    }
+
+    .customer-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .customer-action-btn {
+      border: 1px solid var(--line-soft);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: .18s ease;
+    }
+
+    .customer-action-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .customer-action-btn.review {
+      background: rgba(127,196,209,0.18);
+      border-color: rgba(127,196,209,0.34);
+    }
+
+    .customer-action-btn.open {
+      background: rgba(234,127,103,0.14);
+      border-color: rgba(234,127,103,0.28);
+    }
+
+    .customer-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .customer-meta-item {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      display: grid;
+      gap: 4px;
+    }
+
+    .customer-meta-item strong {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 900;
+      opacity: 0.66;
+    }
+
+    .customer-meta-item span {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .customer-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(127,196,209,0.18);
+      border: 1px solid rgba(127,196,209,0.32);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(18,20,22,0.42);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(860px, 100%);
+      max-height: calc(100vh - 48px);
+      overflow: auto;
+      padding: 28px;
+      border-radius: 28px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: 0 28px 60px rgba(0,0,0,0.24);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .modal-head .section-title {
+      font-size: 34px;
+      margin-bottom: 6px;
+    }
+
+    .auto-address-note {
+      margin-top: 10px;
+      font-size: 13px;
+      line-height: 1.6;
+      opacity: 0.8;
     }
 
     @keyframes checkboxPop {
@@ -751,6 +1250,12 @@
       .mini-info,
       .stats-grid { grid-template-columns: 1fr; }
       .option-layout { grid-template-columns: 1fr; }
+      .landing-hero,
+      .landing-feature-grid,
+      .landing-steps,
+      .upgrade-hero,
+      .plan-grid,
+      .customer-meta-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 1380px) {
@@ -760,6 +1265,7 @@
     @media (max-width: 760px) {
       .nav { align-items: flex-start; }
       .section-title { font-size: 34px; }
+      .hero-title { font-size: 40px; }
       .tool-header { grid-template-columns: 1fr; }
       .tool-strip { min-height: 80px; }
       .button-row { grid-template-columns: 1fr; }
@@ -790,16 +1296,149 @@
 
       <div class="nav-controls">
         <nav class="nav-links">
-          <button class="nav-link active" id="navHomeBtn" type="button" onclick="showPage('homePage')">Home</button>
-          <button class="nav-link" id="navOptionsBtn" type="button" onclick="showPage('optionsPage')">Venster beheer</button>
-          <button class="nav-link" id="navAccountBtn" type="button" onclick="showPage('accountPage')">Account beheren</button>
+          <button class="nav-link active" id="navLandingBtn" type="button" onclick="showPage('landingPage')"><span class="nav-icon">⌂</span><span>Home</span></button>
+          <button class="nav-link" id="navDashboardBtn" type="button" onclick="showPage('homePage')"><span class="nav-icon">▦</span><span>Dashboard</span></button>
+          <button class="nav-link" id="navCustomersBtn" type="button" onclick="showPage('customersPage')" hidden><span class="nav-icon">◉</span><span>Klanten</span></button>
+          <button class="nav-link" id="navOptionsBtn" type="button" onclick="showPage('optionsPage')"><span class="nav-icon">☰</span><span>Venster beheer</span></button>
+          <button class="nav-link" id="navAccountBtn" type="button" onclick="showPage('accountPage')"><span class="nav-icon">⚙</span><span>Account beheren</span></button>
         </nav>
       </div>
     </div>
   </header>
 
   <main>
-    <section class="page active" id="homePage">
+    <section id="freeUsageBanner" class="page" style="display:none; padding: 0;">
+      <div class="container" style="padding-top:18px;">
+        <div class="card" style="padding:18px 22px; background: rgba(215,76,76,0.10); border-color: rgba(215,76,76,0.28);">
+          <div class="usage-banner-row">
+            <div>
+              <strong id="freeUsageTitle" style="display:block; margin-bottom:6px; font-size:16px;">Gratis versie</strong>
+              <span id="freeUsageText" style="display:block; font-size:14px; line-height:1.6;">Je hebt nog 10 berichten over in de komende 24 uur.</span>
+            </div>
+            <button class="btn btn-black" type="button" onclick="showPage('upgradePage')">Upgrade naar Pro</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page active" id="landingPage">
+      <div class="container">
+        <div class="landing-hero">
+          <div class="card hero-main">
+            <div class="hero-copy">
+              <div class="hero-kicker">Home</div>
+              <h1 class="hero-title">Stuur sneller verzorgde klantberichten vanuit een helder dashboard.</h1>
+              <p class="hero-text">
+                BERICHTER helpt je om vaste klantcommunicatie op één plek te beheren. Je kiest je vensters, vult eenvoudig klantgegevens in en opent direct WhatsApp of e-mail met een nette voorbeeldtekst.
+              </p>
+
+              <div class="header-actions">
+                <button class="btn btn-black" type="button" onclick="showPage('homePage')">Open dashboard</button>
+                <button class="btn btn-yellow" type="button" onclick="showPage('optionsPage')">Beheer vensters</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-side">
+            <div class="hero-stat">
+              <strong>Praktisch in dagelijks gebruik</strong>
+              <span>Gebruik vaste berichtvensters voor reviews, afspraken, bestellingen en opvolging zonder telkens opnieuw te typen.</span>
+            </div>
+            <div class="hero-visual">
+              <img src="afbeeldingen/voorbeeld_afbeelding_1.png" alt="Voorbeeldweergave van BERICHTER">
+            </div>
+            <div class="hero-stat">
+              <strong>Alles in dezelfde browser</strong>
+              <span>Je bedrijfsgegevens, teamleden en vensterkeuzes blijven lokaal bewaard zodat je snel verder kunt werken.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="landing-feature-grid">
+          <div class="landing-panel">
+            <strong>Dashboard</strong>
+            <p>Bekijk hier je actieve vensters, vul direct klantgegevens in en werk vanuit één centrale plek.</p>
+          </div>
+          <div class="landing-panel">
+            <strong>Venster beheer</strong>
+            <p>Selecteer berichten, groepeer ze per onderwerp en zet ze in de volgorde die voor jouw workflow het handigst is.</p>
+          </div>
+          <div class="landing-panel">
+            <strong>Account beheren</strong>
+            <p>Bewaar bedrijfsgegevens, reviewlinks en teamleden zodat je berichten automatisch beter en sneller worden ingevuld.</p>
+          </div>
+        </div>
+
+        <div class="landing-steps">
+          <div class="landing-step">
+            <div class="step-number">1</div>
+            <strong>Vul je basis in</strong>
+            <p>Stel je bedrijfsnaam, links en teamleden in zodat elk bericht een nette afzender en context krijgt.</p>
+          </div>
+          <div class="landing-step">
+            <div class="step-number">2</div>
+            <strong>Kies je vensters</strong>
+            <p>Activeer alleen de berichten die je echt gebruikt, zoals reviewverzoeken, afspraakherinneringen of bestelupdates.</p>
+          </div>
+          <div class="landing-step">
+            <div class="step-number">3</div>
+            <strong>Orden je dashboard</strong>
+            <p>Sleep actieve vensters in de juiste volgorde zodat je belangrijkste acties altijd bovenaan staan.</p>
+          </div>
+          <div class="landing-step">
+            <div class="step-number">4</div>
+            <strong>Verstuur direct</strong>
+            <p>Open WhatsApp of e-mail met een vooraf ingevuld bericht en werk sneller zonder losse notities of kopieerwerk.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="upgradePage">
+      <div class="container">
+        <div class="upgrade-hero">
+          <div class="price-card">
+            <div class="price-tag">Upgrade</div>
+            <h2 class="price-title">Ga verder met Pro</h2>
+            <p class="price-copy">
+              Met de Pro versie haal je de beperkingen van de gratis variant weg. Je krijgt meer vrijheid in vensters, invoervelden, medewerkers en standaardteksten.
+            </p>
+
+            <ul class="price-list">
+              <li>Onbeperkt actieve vensters op je dashboard</li>
+              <li>Geen limiet van 10 berichten per 24 uur</li>
+              <li>Volledige controle over voorbeeldteksten en invoervelden</li>
+              <li>Meer dan 2 medewerkers toevoegen en gebruiken</li>
+            </ul>
+
+            <div class="header-actions">
+              <button class="btn btn-pink" type="button" onclick="setSubscriptionPlan('pro'); showPage('accountPage');">Activeer Pro</button>
+              <button class="btn btn-yellow" type="button" onclick="showPage('accountPage')">Terug naar account</button>
+            </div>
+          </div>
+
+          <div class="upgrade-side">
+            <div class="price-card">
+              <div class="price-tag">Later aanpasbaar</div>
+              <h3 class="section-title" style="font-size:30px;">Prijsblok</h3>
+              <p class="price-copy">
+                Dit venster is klaar om later een echte prijs, betaalwijze of checkout-knop te tonen. Je kunt hier in een volgende stap eenvoudig je definitieve Pro aanbod plaatsen.
+              </p>
+            </div>
+
+            <div class="price-card">
+              <div class="price-tag">Voorbeeld</div>
+              <p class="price-copy">
+                Hier kun je later bijvoorbeeld toevoegen:
+                maandprijs, jaarprijs, een proefperiode of een betaal-link.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="homePage">
       <div class="container">
         <div id="activeBusinessTypeNote" hidden>Nog geen bedrijfstype geselecteerd.</div>
         <div id="autoSaveStatus" hidden>Autosave staat klaar.</div>
@@ -809,6 +1448,92 @@
         </div>
 
         <div class="grid tools-grid" id="toolsContainer"></div>
+      </div>
+    </section>
+
+    <section class="page" id="customersPage">
+      <div class="container">
+        <div class="card">
+          <h2 class="section-title">Klanten</h2>
+          <p class="section-text">
+            Bewaar hier je klanten in één overzicht en zoek direct op naam, adres, telefoonnummer of e-mailadres. Deze pagina is alleen beschikbaar in Berichter MAX.
+          </p>
+
+          <div class="customers-toolbar">
+            <div class="customers-search-wrap">
+              <input type="search" id="customerSearch" placeholder="Zoek op naam, postcode, straat, plaats, telefoon of e-mail" />
+            </div>
+            <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+              <div class="customer-count" id="customerCountBadge">0 klanten</div>
+              <button class="btn btn-pink" type="button" id="addCustomerBtn">Klant toevoegen</button>
+            </div>
+          </div>
+
+          <div class="customers-grid" id="customersList"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="customerDetailPage">
+      <div class="container">
+        <div class="card">
+          <div class="customer-row-head" style="margin-bottom:22px;">
+            <div>
+              <h2 class="section-title">Klantgegevens</h2>
+              <p class="section-text">Pas hier bestaande klantgegevens aan of verwijder de klant volledig uit je overzicht.</p>
+            </div>
+            <button class="btn btn-black" type="button" onclick="showPage('customersPage')">Terug naar klanten</button>
+          </div>
+
+          <div class="form-grid" style="margin-top:10px;">
+            <div class="field-group">
+              <label for="detailCustomerFirstName">Voornaam</label>
+              <input type="text" id="detailCustomerFirstName" />
+            </div>
+            <div class="field-group">
+              <label for="detailCustomerMiddleName">Tussenvoegsel</label>
+              <input type="text" id="detailCustomerMiddleName" />
+            </div>
+            <div class="field-group">
+              <label for="detailCustomerLastName">Achternaam</label>
+              <input type="text" id="detailCustomerLastName" />
+            </div>
+            <div class="field-group">
+              <label for="detailCustomerPostcode">Postcode</label>
+              <input type="text" id="detailCustomerPostcode" />
+            </div>
+            <div class="field-group">
+              <label for="detailCustomerHouseNumber">Huisnummer</label>
+              <input type="text" id="detailCustomerHouseNumber" />
+            </div>
+            <div class="field-group">
+              <label for="detailCustomerStreetName">Straatnaam</label>
+              <input type="text" id="detailCustomerStreetName" />
+            </div>
+            <div class="field-group">
+              <label for="detailCustomerCity">Woonplaats</label>
+              <input type="text" id="detailCustomerCity" />
+            </div>
+            <div class="field-group">
+              <label for="detailCustomerPhone">Telefoon nummer</label>
+              <input type="text" id="detailCustomerPhone" />
+            </div>
+            <div class="field-group full">
+              <label for="detailCustomerEmail">Email adres</label>
+              <input type="email" id="detailCustomerEmail" />
+            </div>
+          </div>
+
+          <div class="auto-address-note" id="customerDetailAddressNote">
+            Vul postcode en huisnummer in. Als een adresmatch gevonden wordt, vullen straatnaam en woonplaats zichzelf automatisch aan.
+          </div>
+
+          <div class="header-actions">
+            <button class="btn btn-pink" type="button" onclick="saveCustomerDetail()">Wijzigingen opslaan</button>
+            <button class="btn btn-yellow" type="button" onclick="sendCustomerReviewFromDetail()">Recensie via WhatsApp</button>
+            <button class="btn btn-black" type="button" onclick="deleteCurrentCustomer()">Klant verwijderen</button>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -945,6 +1670,7 @@
               <div class="grid" style="gap:12px; margin-top:22px;">
                 <div class="summary-item"><strong>Bedrijfsnaam</strong><span id="viewBedrijfNaam">Nog niet ingesteld</span></div>
                 <div class="summary-item"><strong>Soort bedrijf</strong><span id="viewBedrijfType">Nog niet ingesteld</span></div>
+                <div class="summary-item"><strong>Abonnement</strong><span id="viewSubscriptionPlan">Nog niet ingesteld</span></div>
                 <div class="summary-item"><strong>Logo</strong><span id="viewLogoPath">Nog niet ingesteld</span></div>
                 <div class="summary-item"><strong>Website</strong><span id="viewWebsiteLink">Nog niet ingesteld</span></div>
                 <div class="summary-item"><strong>Google review link</strong><span id="viewGoogleReviewLink">Nog niet ingesteld</span></div>
@@ -955,30 +1681,43 @@
             </div>
 
             <div class="card">
-              <h2 class="section-title">Export & instellingen</h2>
-              <p class="section-text">Extra beheerfuncties voor export en weergave.</p>
+              <h2 class="section-title">Abonnement</h2>
+              <p class="section-text">
+                Kies hieronder welke versie actief is. In de gratis versie gelden beperkingen voor vensters, medewerkers en invoervelden.
+              </p>
 
-              <div class="grid export-grid" style="margin-top:22px;">
-                <div class="export-card">
-                  <strong>PDF export</strong>
-                  <p>Print de actieve pagina naar PDF via de browser.</p>
-                  <button class="btn btn-black" type="button" onclick="printCurrentPage()">PDF exporteren</button>
-                </div>
-                <div class="export-card">
-                  <strong>CSV export</strong>
-                  <p>Exporteer account-, team- en toolinstellingen naar een CSV-bestand.</p>
-                  <button class="btn btn-cyan" type="button" onclick="exportCSV()">CSV downloaden</button>
-                </div>
+              <div class="plan-grid">
+                <button class="plan-card" type="button" id="planFreeCard" onclick="setSubscriptionPlan('free')">
+                  <div class="plan-meta">Gratis versie</div>
+                  <strong>Gratis</strong>
+                  <p>Maximaal 2 actieve vensters, maximaal 2 medewerkers, geen medewerkerkeuze in berichten en geen zichtbare voorbeeldtekst.</p>
+                </button>
+
+                <button class="plan-card" type="button" id="planProCard" onclick="setSubscriptionPlan('pro')">
+                  <div class="plan-meta">Pro versie</div>
+                  <strong>Pro</strong>
+                  <p>Volledige vrijheid in vensters, medewerkers, invoervelden en aangepaste berichtteksten.</p>
+                </button>
+
+                <button class="plan-card" type="button" id="planMaxCard" onclick="setSubscriptionPlan('max')">
+                  <div class="plan-meta">Berichter MAX</div>
+                  <strong>Berichter MAX</strong>
+                  <p>Alles uit Pro, plus een aparte klantenpagina waarop je klanten kunt toevoegen, bewaren en doorzoeken.</p>
+                </button>
               </div>
 
               <div class="grid settings-grid" style="margin-top:16px;">
                 <div class="settings-card">
-                  <strong>Donkere modus</strong>
-                  <p>Gebruik de knop bovenin om de interface te wisselen.</p>
+                  <strong>Gratis</strong>
+                  <p>Voor een eenvoudige basisopzet met beperkte mogelijkheden.</p>
                 </div>
                 <div class="settings-card">
-                  <strong>Automatische opslag</strong>
-                  <p>Wijzigingen worden direct lokaal opgeslagen.</p>
+                  <strong>Pro</strong>
+                  <p>Hier kun je later eenvoudig een prijs of extra informatie aan toevoegen.</p>
+                </div>
+                <div class="settings-card">
+                  <strong>Berichter MAX</strong>
+                  <p>Geschikt wanneer je ook je klantenbestand binnen dezelfde tool wilt beheren.</p>
                 </div>
               </div>
             </div>
@@ -988,6 +1727,66 @@
     </section>
 
   </main>
+
+  <div class="modal-backdrop" id="customerModal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h2 class="section-title">Klant toevoegen</h2>
+          <p class="section-text">Vul hieronder de gegevens van de klant in. Na opslaan kom je direct terug in het klantenoverzicht.</p>
+        </div>
+        <button class="btn btn-black" type="button" onclick="closeCustomerModal()">Sluiten</button>
+      </div>
+
+      <div class="form-grid" style="margin-top:10px;">
+        <div class="field-group">
+          <label for="customerFirstName">Voornaam</label>
+          <input type="text" id="customerFirstName" placeholder="Bijvoorbeeld: Jan" />
+        </div>
+        <div class="field-group">
+          <label for="customerMiddleName">Tussenvoegsel</label>
+          <input type="text" id="customerMiddleName" placeholder="Bijvoorbeeld: van der" />
+        </div>
+        <div class="field-group">
+          <label for="customerLastName">Achternaam</label>
+          <input type="text" id="customerLastName" placeholder="Bijvoorbeeld: Jansen" />
+        </div>
+        <div class="field-group">
+          <label for="customerPostcode">Postcode</label>
+          <input type="text" id="customerPostcode" placeholder="Bijvoorbeeld: 1234AB" />
+        </div>
+        <div class="field-group">
+          <label for="customerHouseNumber">Huisnummer</label>
+          <input type="text" id="customerHouseNumber" placeholder="Bijvoorbeeld: 18" />
+        </div>
+        <div class="field-group">
+          <label for="customerStreetName">Straatnaam</label>
+          <input type="text" id="customerStreetName" placeholder="Bijvoorbeeld: Dorpsstraat" />
+        </div>
+        <div class="field-group">
+          <label for="customerCity">Woonplaats</label>
+          <input type="text" id="customerCity" placeholder="Bijvoorbeeld: Amsterdam" />
+        </div>
+        <div class="field-group">
+          <label for="customerPhone">Telefoon nummer</label>
+          <input type="text" id="customerPhone" placeholder="Bijvoorbeeld: 0612345678" />
+        </div>
+        <div class="field-group full">
+          <label for="customerEmail">Email adres</label>
+          <input type="email" id="customerEmail" placeholder="Bijvoorbeeld: klant@voorbeeld.nl" />
+        </div>
+      </div>
+
+      <div class="auto-address-note" id="customerModalAddressNote">
+        Vul postcode en huisnummer in. Als een adresmatch gevonden wordt, vullen straatnaam en woonplaats zichzelf automatisch aan.
+      </div>
+
+      <div class="header-actions">
+        <button class="btn btn-pink" type="button" onclick="saveCustomer()">Klant opslaan</button>
+        <button class="btn btn-yellow" type="button" onclick="resetCustomerForm()">Velden leegmaken</button>
+      </div>
+    </div>
+  </div>
 
   <template id="toolCardTemplate">
     <div class="tool-card">
@@ -1040,6 +1839,9 @@
           <div class="field-group full">
             <label>Berichttekst</label>
             <textarea class="field-message"></textarea>
+            <div class="tool-note free-plan-note" hidden>
+              Gratis versie: de voorbeeldtekst is alleen zichtbaar in de Pro versie. Berichten worden wel met de standaardtekst verstuurd. `Geholpen door` is alleen beschikbaar in Pro.
+            </div>
           </div>
         </div>
 
@@ -1060,8 +1862,12 @@
     const SETTINGS_KEY = 'berichter_settings_v3';
     const EMPLOYEES_KEY = 'berichter_employees_v3';
     const TOOL_INPUTS_KEY = 'berichter_tool_inputs_v3';
+    const FREE_USAGE_KEY = 'berichter_free_usage_v1';
+    const CUSTOMERS_KEY = 'berichter_customers_v1';
     const STRIP_CLASSES = ['pink', 'yellow', 'cyan'];
     const STANDARD_TOOL_IDS = [];
+    let currentCustomerIndex = null;
+    let customerLookupTimer = null;
 
     const TOOL_DEFINITIONS = [
       { id:'review_request', category:'Reviews', title:'Recensie aanvragen', desc:'Vraag eenvoudig een Google review aan na een bezoek of aankoop.', emailSubject:'Verzoek om een Google review', buildMessage(d,a){ const n=d.customerName?`Hoi ${d.customerName}`:'Beste klant,'; const c=a.bedrijfNaam||'[bedrijfsnaam]'; const l=a.googleReviewLink||'[link]'; const s=getSignatureLine(d,a); return `${n}\n\nBedankt voor uw bezoek aan onze winkel.\nWe hopen dat u er blij mee bent.\n\nZou je ons willen helpen met een korte review op Google?\n${l}\n\nAlvast bedankt!\n${s}`; } },
@@ -1110,10 +1916,22 @@
     ];
 
     function showPage(pageId) {
+      if (pageId === 'customersPage' && !isMaxPlan()) {
+        showPage('accountPage');
+        updateAutoSaveStatus('De klantenpagina is alleen beschikbaar in Berichter MAX.');
+        return;
+      }
+      if (pageId === 'customerDetailPage' && !isMaxPlan()) {
+        showPage('accountPage');
+        updateAutoSaveStatus('Klantdetails zijn alleen beschikbaar in Berichter MAX.');
+        return;
+      }
       document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
       document.getElementById(pageId).classList.add('active');
       document.querySelectorAll('.nav-link').forEach(btn => btn.classList.remove('active'));
-      if (pageId === 'homePage') document.getElementById('navHomeBtn').classList.add('active');
+      if (pageId === 'landingPage') document.getElementById('navLandingBtn').classList.add('active');
+      if (pageId === 'homePage') document.getElementById('navDashboardBtn').classList.add('active');
+      if (pageId === 'customersPage' || pageId === 'customerDetailPage') document.getElementById('navCustomersBtn').classList.add('active');
       if (pageId === 'optionsPage') document.getElementById('navOptionsBtn').classList.add('active');
       if (pageId === 'accountPage') document.getElementById('navAccountBtn').classList.add('active');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1128,10 +1946,62 @@
     function getSettings() { return JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{"darkMode":false}'); }
     function getEmployees() { return JSON.parse(localStorage.getItem(EMPLOYEES_KEY) || '[]'); }
     function getToolInputs() { return JSON.parse(localStorage.getItem(TOOL_INPUTS_KEY) || '{}'); }
+    function getFreeUsage() { return JSON.parse(localStorage.getItem(FREE_USAGE_KEY) || '[]'); }
+    function getCustomers() { return JSON.parse(localStorage.getItem(CUSTOMERS_KEY) || '[]'); }
     function saveToolInputs(inputs) { localStorage.setItem(TOOL_INPUTS_KEY, JSON.stringify(inputs)); updateAutoSaveStatus('Toolgegevens automatisch opgeslagen.'); }
     function setValue(id, value) { const el = document.getElementById(id); if (el) el.value = value || ''; }
     function getValue(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
     function updateAutoSaveStatus(text) { const el = document.getElementById('autoSaveStatus'); if (el) el.textContent = text; }
+    function getSubscriptionPlan() {
+      const plan = getAccount().subscriptionPlan;
+      if (plan === 'free') return 'free';
+      if (plan === 'max') return 'max';
+      return 'pro';
+    }
+    function isFreePlan() { return getSubscriptionPlan() === 'free'; }
+    function isMaxPlan() { return getSubscriptionPlan() === 'max'; }
+    function getMaxVisibleTools() { return isFreePlan() ? 2 : Infinity; }
+    function pruneFreeUsage() {
+      const cutoff = Date.now() - (24 * 60 * 60 * 1000);
+      const pruned = getFreeUsage().filter(timestamp => Number(timestamp) > cutoff);
+      localStorage.setItem(FREE_USAGE_KEY, JSON.stringify(pruned));
+      return pruned;
+    }
+    function getRemainingFreeMessages() {
+      return Math.max(0, 10 - pruneFreeUsage().length);
+    }
+    function canSendFreeMessage() {
+      return !isFreePlan() || getRemainingFreeMessages() > 0;
+    }
+    function recordFreeMessageSent() {
+      if (!isFreePlan()) return;
+      const usage = pruneFreeUsage();
+      usage.push(Date.now());
+      localStorage.setItem(FREE_USAGE_KEY, JSON.stringify(usage));
+      renderFreeUsageBanner();
+    }
+    function renderFreeUsageBanner() {
+      const banner = document.getElementById('freeUsageBanner');
+      const title = document.getElementById('freeUsageTitle');
+      const text = document.getElementById('freeUsageText');
+      if (!banner || !title || !text) return;
+      if (!isFreePlan()) {
+        banner.style.display = 'none';
+        return;
+      }
+      const remaining = getRemainingFreeMessages();
+      banner.style.display = 'block';
+      title.textContent = 'Gratis versie';
+      text.textContent = remaining > 0
+        ? `Je hebt nog ${remaining} ${remaining === 1 ? 'bericht' : 'berichten'} over in de komende 24 uur.`
+        : 'Je limiet van 10 berichten in 24 uur is bereikt. Schakel naar Pro of wacht tot de teller opnieuw ruimte geeft.';
+    }
+
+    function updateNavigationVisibility() {
+      const customersBtn = document.getElementById('navCustomersBtn');
+      if (!customersBtn) return;
+      customersBtn.hidden = !isMaxPlan();
+    }
 
     function populateBusinessTypes() {
       const select = document.getElementById('bedrijfType');
@@ -1250,14 +2120,22 @@
       const business = getBusinessTypeById(account.bedrijfType);
       document.getElementById('viewBedrijfNaam').textContent = account.bedrijfNaam || 'Nog niet ingesteld';
       document.getElementById('viewBedrijfType').textContent = business ? business.name : 'Nog niet ingesteld';
+      document.getElementById('viewSubscriptionPlan').textContent =
+        getSubscriptionPlan() === 'free' ? 'Gratis' : (getSubscriptionPlan() === 'max' ? 'Berichter MAX' : 'Pro');
       document.getElementById('viewLogoPath').innerHTML = 'Standaard logo actief';
       document.getElementById('viewWebsiteLink').innerHTML = renderLinkOrFallback(account.websiteLink);
       document.getElementById('viewGoogleReviewLink').innerHTML = renderLinkOrFallback(account.googleReviewLink);
       document.getElementById('viewFacebookLink').innerHTML = renderLinkOrFallback(account.facebookLink);
       document.getElementById('viewInstagramLink').innerHTML = renderLinkOrFallback(account.instagramLink);
       document.getElementById('viewTiktokLink').innerHTML = renderLinkOrFallback(account.tiktokLink);
+      document.getElementById('planFreeCard')?.classList.toggle('active', getSubscriptionPlan() === 'free');
+      document.getElementById('planProCard')?.classList.toggle('active', getSubscriptionPlan() === 'pro');
+      document.getElementById('planMaxCard')?.classList.toggle('active', getSubscriptionPlan() === 'max');
       updateBusinessTypeNote();
       updateLogoEverywhere();
+      renderFreeUsageBanner();
+      updateNavigationVisibility();
+      renderCustomers();
     }
 
     function loadAccountToForm() {
@@ -1273,11 +2151,40 @@
       refreshAllToolMessages();
     }
 
+    function setSubscriptionPlan(plan) {
+      const account = {
+        ...getAccount(),
+        subscriptionPlan: plan === 'free' ? 'free' : (plan === 'max' ? 'max' : 'pro')
+      };
+      localStorage.setItem(ACCOUNT_KEY, JSON.stringify(account));
+
+      if (plan === 'free') {
+        const limitedTools = getVisibleTools().slice(0, 2);
+        setVisibleTools(limitedTools);
+      }
+
+      renderAccountView();
+      renderOptions();
+      renderTools();
+      renderEmployees();
+      updateDashboardStats();
+      renderFreeUsageBanner();
+      if (!isMaxPlan() && (document.getElementById('customersPage')?.classList.contains('active') || document.getElementById('customerDetailPage')?.classList.contains('active'))) {
+        showPage('accountPage');
+      }
+      updateAutoSaveStatus(
+        plan === 'free'
+          ? 'Gratis versie ingeschakeld.'
+          : (plan === 'max' ? 'Berichter MAX is ingeschakeld.' : 'Pro versie ingeschakeld.')
+      );
+    }
+
     function saveAccount() {
       const previous = getAccount();
       const account = {
         bedrijfNaam: getValue('bedrijfNaam'),
         bedrijfType: getValue('bedrijfType'),
+        subscriptionPlan: getSubscriptionPlan(),
         websiteLink: getValue('websiteLink'),
         googleReviewLink: getValue('googleReviewLink'),
         facebookLink: getValue('facebookLink'),
@@ -1308,6 +2215,7 @@
       renderTools();
       updateDashboardStats();
       updateAutoSaveStatus('Accountgegevens zijn verwijderd.');
+      updateNavigationVisibility();
       showPage('homePage');
     }
 
@@ -1316,6 +2224,7 @@
         ...getAccount(),
         bedrijfNaam: getValue('bedrijfNaam'),
         bedrijfType: getValue('bedrijfType'),
+        subscriptionPlan: getSubscriptionPlan(),
         websiteLink: getValue('websiteLink'),
         googleReviewLink: getValue('googleReviewLink'),
         facebookLink: getValue('facebookLink'),
@@ -1352,7 +2261,8 @@
 
     function setVisibleTools(selected) {
       const normalized = [...new Set(selected)].filter(toolId => TOOL_DEFINITIONS.some(tool => tool.id === toolId));
-      localStorage.setItem(VISIBLE_TOOLS_KEY, JSON.stringify(normalized.length ? normalized : getDefaultVisibleTools()));
+      const limited = normalized.slice(0, getMaxVisibleTools());
+      localStorage.setItem(VISIBLE_TOOLS_KEY, JSON.stringify(limited.length ? limited : getDefaultVisibleTools()));
     }
 
     function selectAllTools() {
@@ -1377,12 +2287,27 @@
 
     function autoSaveVisibleTools(toolId, checked) {
       const selected = new Set(getVisibleTools());
+      if (checked && isFreePlan() && !selected.has(toolId) && selected.size >= 2) {
+        updateAutoSaveStatus('Gratis versie: je kunt maximaal 2 vensters tegelijk actief hebben.');
+        renderOptions();
+        return;
+      }
       if (checked) selected.add(toolId);
       else selected.delete(toolId);
       setVisibleTools([...selected]);
+      window.setTimeout(() => renderOptions(), checked ? 260 : 0);
       renderTools();
       updateDashboardStats();
       updateAutoSaveStatus('Vensterselectie automatisch opgeslagen.');
+    }
+
+    function removeVisibleTool(toolId) {
+      const selected = getVisibleTools().filter(id => id !== toolId);
+      setVisibleTools(selected);
+      renderOptions();
+      renderTools();
+      updateDashboardStats();
+      updateAutoSaveStatus('Venster verwijderd van de homepagina.');
     }
 
     function reorderVisibleTools(sourceToolId, targetToolId) {
@@ -1458,6 +2383,7 @@
           card.innerHTML = `<input type="checkbox" class="option-checkbox" value="${tool.id}" ${visible.has(tool.id) ? 'checked' : ''}><div><strong>${tool.title}</strong><span>${tool.desc}<br><small><strong>Categorie:</strong> ${tool.category}</small></span></div>`;
           if (visible.has(tool.id)) card.classList.add('checked');
           const checkbox = card.querySelector('.option-checkbox');
+          if (isFreePlan() && !visible.has(tool.id) && visible.size >= 2) checkbox.disabled = true;
           checkbox.addEventListener('change', (event) => {
             card.classList.toggle('checked', event.target.checked);
             checkbox.classList.remove('pop');
@@ -1503,7 +2429,7 @@
               <strong>${tool.title}</strong>
               <span>${tool.category}</span>
             </div>
-            <div></div>
+            <div><button class="remove-tool-btn" type="button">Verwijderen</button></div>
           `;
           item.addEventListener('dragstart', (event) => {
             item.classList.add('dragging');
@@ -1528,6 +2454,7 @@
             const sourceToolId = event.dataTransfer.getData('text/plain');
             reorderVisibleTools(sourceToolId, tool.id);
           });
+          item.querySelector('.remove-tool-btn').addEventListener('click', () => removeVisibleTool(tool.id));
           orderSection.appendChild(item);
         });
       }
@@ -1645,11 +2572,13 @@
         const productNameField = fragment.querySelector('.field-product-name');
         const appointmentOnlyFields = fragment.querySelectorAll('.appointment-only');
         const productOnlyFields = fragment.querySelectorAll('.product-only');
+        const freePlanNote = fragment.querySelector('.free-plan-note');
         const messageField = fragment.querySelector('.field-message');
         const whatsappBtn = fragment.querySelector('.btn-whatsapp');
         const emailBtn = fragment.querySelector('.btn-email');
         const clearBtn = fragment.querySelector('.btn-clear');
         const savedData = toolInputs[tool.id] || {};
+        const freePlan = isFreePlan();
 
         nameField.value = savedData.customerName || '';
         phoneField.value = savedData.phone || '';
@@ -1670,12 +2599,44 @@
         const currentDefaultMessage = tool.buildMessage(normalizedToolData, getAccount());
         const legacyMessages = getLegacyToolMessages(tool.id, normalizedToolData, getAccount());
         const shouldReplaceSavedMessage = savedData.message && legacyMessages.includes(savedData.message.trim());
-        messageField.value = shouldReplaceSavedMessage ? currentDefaultMessage : (savedData.message || '');
+        messageField.value = freePlan ? currentDefaultMessage : (shouldReplaceSavedMessage ? currentDefaultMessage : (savedData.message || ''));
 
         const isAppointmentTool = tool.id === 'appointment_reminder';
-        const isProductTool = tool.id === 'order_ready_pickup';
+        const isProductTool = tool.id === 'order_ready_pickup' || tool.id === 'order_confirmed';
         appointmentOnlyFields.forEach(field => { field.hidden = !isAppointmentTool; });
         productOnlyFields.forEach(field => { field.hidden = !isProductTool; });
+        freePlanNote.hidden = !freePlan;
+
+        helperSelect.disabled = freePlan;
+        messageField.readOnly = freePlan;
+        nameField.disabled = false;
+        nameField.classList.remove('field-locked');
+        helperSelect.classList.toggle('field-locked', freePlan);
+        if (freePlan) {
+          helperSelect.value = '';
+          normalizedToolData.helper = '';
+          messageField.value = tool.buildMessage({
+            customerName: savedData.customerName || '',
+            phone: savedData.phone || '',
+            email: savedData.email || '',
+            helper: '',
+            appointmentDate: savedData.appointmentDate || '',
+            appointmentTime: savedData.appointmentTime || '',
+            productName: savedData.productName || ''
+          }, getAccount());
+          messageField.hidden = true;
+        } else {
+          messageField.hidden = false;
+        }
+
+        const showFreePlanLockedMessage = () => {
+          if (freePlan) showToolStatus(whatsappBtn.closest('.tool-card'), 'Gratis versie: `Geholpen door` is alleen beschikbaar in de Pro versie.', 'error');
+        };
+        if (freePlan) {
+          ['click', 'focus'].forEach(eventName => {
+            helperSelect.addEventListener(eventName, showFreePlanLockedMessage);
+          });
+        }
 
         const syncMessage = () => updateToolMessage(whatsappBtn.closest('.tool-card'), tool);
         [nameField, phoneField, emailField, helperSelect, appointmentDateField, appointmentTimeField, productNameField].forEach(field => {
@@ -1688,9 +2649,11 @@
           const currentCard = whatsappBtn.closest('.tool-card');
           const phone = currentCard.querySelector('.field-phone').value.trim();
           const message = currentCard.querySelector('.field-message').value.trim() || tool.buildMessage(getToolDataFromCard(currentCard), getAccount());
+          if (!canSendFreeMessage()) return showToolStatus(currentCard, 'Gratis versie: je hebt je limiet van 10 berichten in 24 uur bereikt.', 'error');
           if (!phone) return showToolStatus(currentCard, 'Vul eerst een telefoonnummer van de klant in.', 'error');
           if (!isLikelyValidPhone(phone)) return showToolStatus(currentCard, 'Het telefoonnummer lijkt niet geldig.', 'error');
           openWhatsApp(phone, message);
+          recordFreeMessageSent();
           showToolStatus(currentCard, 'WhatsApp wordt geopend met het ingevulde bericht.', 'success');
         });
 
@@ -1698,9 +2661,11 @@
           const currentCard = emailBtn.closest('.tool-card');
           const email = currentCard.querySelector('.field-email').value.trim();
           const message = currentCard.querySelector('.field-message').value.trim() || tool.buildMessage(getToolDataFromCard(currentCard), getAccount());
+          if (!canSendFreeMessage()) return showToolStatus(currentCard, 'Gratis versie: je hebt je limiet van 10 berichten in 24 uur bereikt.', 'error');
           if (!email) return showToolStatus(currentCard, 'Vul eerst een e-mailadres van de klant in.', 'error');
           if (!isValidEmail(email)) return showToolStatus(currentCard, 'Het e-mailadres lijkt niet geldig.', 'error');
           openEmail(email, tool.emailSubject, message);
+          recordFreeMessageSent();
           showToolStatus(currentCard, 'Je e-mailprogramma wordt geopend met het ingevulde bericht.', 'success');
         });
 
@@ -1750,6 +2715,9 @@
       const email = getValue('employeeEmail');
       if (!name) return updateAutoSaveStatus('Vul eerst een medewerkernaam in.');
       const employees = getEmployees();
+      if (isFreePlan() && employees.length >= 2) {
+        return updateAutoSaveStatus('Gratis versie: je kunt maximaal 2 medewerkers toevoegen.');
+      }
       employees.push({ name, role, email });
       saveEmployees(employees);
       setValue('employeeName', '');
@@ -1772,6 +2740,293 @@
         item.querySelector('button').addEventListener('click', () => removeEmployee(index));
         container.appendChild(item);
       });
+    }
+
+    function normalizeCustomerSearchValue(customer) {
+      return [
+        customer.firstName,
+        customer.middleName,
+        customer.lastName,
+        customer.postcode,
+        customer.houseNumber,
+        customer.streetName,
+        customer.city,
+        customer.phone,
+        customer.email,
+        getCustomerFullName(customer),
+        getCustomerAddress(customer)
+      ].join(' ').toLowerCase();
+    }
+
+    function getCustomerFullName(customer) {
+      return [customer.firstName, customer.middleName, customer.lastName].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+    }
+
+    function getCustomerListName(customer) {
+      return [customer.firstName, customer.middleName, customer.lastName].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim();
+    }
+
+    function getCustomerAddress(customer) {
+      const streetLine = [customer.streetName, customer.houseNumber].filter(Boolean).join(' ').trim();
+      const cityLine = [customer.postcode, customer.city].filter(Boolean).join(' ').trim();
+      return [streetLine, cityLine].filter(Boolean).join(', ');
+    }
+
+    function saveCustomersData(customers) {
+      localStorage.setItem(CUSTOMERS_KEY, JSON.stringify(customers));
+      renderCustomers();
+      updateAutoSaveStatus('Klantgegevens opgeslagen.');
+    }
+
+    function setAddressLookupNote(target, text, type = 'neutral') {
+      const note = document.getElementById(target);
+      if (!note) return;
+      note.textContent = text;
+      note.style.color = type === 'error' ? '#8f1f1f' : '';
+      note.style.opacity = type === 'error' ? '1' : '0.8';
+    }
+
+    async function lookupDutchAddress(postcode, houseNumber) {
+      const normalizedPostcode = String(postcode || '').toUpperCase().replace(/\s+/g, '');
+      const normalizedHouseNumber = String(houseNumber || '').trim();
+      if (normalizedPostcode.length < 6 || !normalizedHouseNumber) return null;
+      const query = encodeURIComponent(`${normalizedPostcode} ${normalizedHouseNumber}`);
+      const url = `https://api.pdok.nl/bzk/locatieserver/search/v3_1/free?q=${query}&rows=1&fq=type:adres`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Adreslookup mislukt');
+      const payload = await response.json();
+      const doc = payload?.response?.docs?.[0];
+      if (!doc) return null;
+      return {
+        streetName: doc.straatnaam || doc.weergavenaam?.split(',')[0]?.replace(/\s+\d.*$/, '').trim() || '',
+        city: doc.woonplaatsnaam || doc.gemeentenaam || ''
+      };
+    }
+
+    function scheduleCustomerAddressLookup(config) {
+      const postcode = getValue(config.postcodeId);
+      const houseNumber = getValue(config.houseNumberId);
+      if (customerLookupTimer) window.clearTimeout(customerLookupTimer);
+      if (!postcode || !houseNumber) {
+        setAddressLookupNote(config.noteId, 'Vul postcode en huisnummer in. Als een adresmatch gevonden wordt, vullen straatnaam en woonplaats zichzelf automatisch aan.');
+        return;
+      }
+      setAddressLookupNote(config.noteId, 'Adres wordt opgezocht op basis van postcode en huisnummer.');
+      customerLookupTimer = window.setTimeout(async () => {
+        try {
+          const result = await lookupDutchAddress(postcode, houseNumber);
+          if (!result) {
+            setAddressLookupNote(config.noteId, 'Er is geen adresmatch gevonden. Je kunt straatnaam en woonplaats handmatig invullen.', 'error');
+            return;
+          }
+          if (result.streetName) setValue(config.streetId, result.streetName);
+          if (result.city) setValue(config.cityId, result.city);
+          setAddressLookupNote(config.noteId, 'Straatnaam en woonplaats zijn automatisch aangevuld.');
+        } catch (error) {
+          setAddressLookupNote(config.noteId, 'Automatisch aanvullen is nu niet gelukt. Je kunt straatnaam en woonplaats handmatig invullen.', 'error');
+        }
+      }, 420);
+    }
+
+    function bindCustomerAddressLookup(postcodeId, houseNumberId, streetId, cityId, noteId) {
+      [postcodeId, houseNumberId].forEach(id => {
+        const field = document.getElementById(id);
+        if (!field) return;
+        ['input', 'change', 'blur'].forEach(eventName => {
+          field.addEventListener(eventName, () => scheduleCustomerAddressLookup({ postcodeId, houseNumberId, streetId, cityId, noteId }));
+        });
+      });
+    }
+
+    function renderCustomers() {
+      const container = document.getElementById('customersList');
+      const searchField = document.getElementById('customerSearch');
+      const countBadge = document.getElementById('customerCountBadge');
+      const addButton = document.getElementById('addCustomerBtn');
+      if (!container || !countBadge || !addButton) return;
+
+      const maxPlan = isMaxPlan();
+      const customers = getCustomers();
+      const searchValue = (searchField?.value || '').trim().toLowerCase();
+      const filteredCustomers = customers.filter(customer => normalizeCustomerSearchValue(customer).includes(searchValue));
+
+      addButton.disabled = !maxPlan;
+      addButton.classList.toggle('field-locked', !maxPlan);
+      countBadge.textContent = `${filteredCustomers.length} ${filteredCustomers.length === 1 ? 'klant' : 'klanten'}`;
+      container.innerHTML = '';
+
+      if (!maxPlan) {
+        container.innerHTML = '<div class="empty-state">De klantenpagina is alleen beschikbaar in Berichter MAX. Activeer eerst MAX in Account beheren om klanten toe te voegen en te doorzoeken.</div>';
+        return;
+      }
+
+      if (!filteredCustomers.length) {
+        container.innerHTML = searchValue
+          ? '<div class="empty-state">Geen klanten gevonden die overeenkomen met je zoekopdracht.</div>'
+          : '<div class="empty-state">Nog geen klanten toegevoegd. Klik rechtsboven op `Klant toevoegen` om te starten.</div>';
+        return;
+      }
+
+      filteredCustomers.forEach(customer => {
+        const originalIndex = customers.indexOf(customer);
+        const card = document.createElement('div');
+        card.className = 'customer-row';
+        card.innerHTML = `
+          <div>
+            <h3 class="customer-name">${escapeHtml(getCustomerListName(customer) || getCustomerFullName(customer) || 'Onbekende klant')}</h3>
+            <p class="customer-subtitle">${escapeHtml(getCustomerAddress(customer) || 'Adres nog niet volledig ingevuld')}</p>
+          </div>
+          <div class="customer-actions">
+            <button class="customer-action-btn review" type="button">Recensie</button>
+            <button class="customer-action-btn open" type="button">Openen</button>
+          </div>
+        `;
+        card.addEventListener('click', () => openCustomerDetail(originalIndex));
+        card.querySelector('.customer-action-btn.open').addEventListener('click', (event) => {
+          event.stopPropagation();
+          openCustomerDetail(originalIndex);
+        });
+        card.querySelector('.customer-action-btn.review').addEventListener('click', (event) => {
+          event.stopPropagation();
+          sendReviewRequestToCustomer(customer);
+        });
+        container.appendChild(card);
+      });
+    }
+
+    function openCustomerDetail(index) {
+      const customers = getCustomers();
+      const customer = customers[index];
+      if (!customer) return;
+      currentCustomerIndex = index;
+      setValue('detailCustomerFirstName', customer.firstName || '');
+      setValue('detailCustomerMiddleName', customer.middleName || '');
+      setValue('detailCustomerLastName', customer.lastName || '');
+      setValue('detailCustomerPostcode', customer.postcode || '');
+      setValue('detailCustomerHouseNumber', customer.houseNumber || '');
+      setValue('detailCustomerStreetName', customer.streetName || '');
+      setValue('detailCustomerCity', customer.city || '');
+      setValue('detailCustomerPhone', customer.phone || '');
+      setValue('detailCustomerEmail', customer.email || '');
+      setAddressLookupNote('customerDetailAddressNote', 'Vul postcode en huisnummer in. Als een adresmatch gevonden wordt, vullen straatnaam en woonplaats zichzelf automatisch aan.');
+      showPage('customerDetailPage');
+    }
+
+    function collectCustomerDetailForm() {
+      return {
+        firstName: getValue('detailCustomerFirstName'),
+        middleName: getValue('detailCustomerMiddleName'),
+        lastName: getValue('detailCustomerLastName'),
+        postcode: getValue('detailCustomerPostcode').toUpperCase().replace(/\s+/g, ''),
+        houseNumber: getValue('detailCustomerHouseNumber'),
+        streetName: getValue('detailCustomerStreetName'),
+        city: getValue('detailCustomerCity'),
+        phone: getValue('detailCustomerPhone'),
+        email: getValue('detailCustomerEmail')
+      };
+    }
+
+    function saveCustomerDetail() {
+      if (currentCustomerIndex === null) return;
+      const customer = collectCustomerDetailForm();
+      if (!customer.firstName || !customer.lastName) {
+        updateAutoSaveStatus('Vul minimaal een voornaam en achternaam in.');
+        return;
+      }
+      const customers = getCustomers();
+      customers[currentCustomerIndex] = customer;
+      saveCustomersData(customers);
+      updateAutoSaveStatus('Klantgegevens zijn bijgewerkt.');
+      showPage('customersPage');
+    }
+
+    function deleteCurrentCustomer() {
+      if (currentCustomerIndex === null) return;
+      const customers = getCustomers();
+      customers.splice(currentCustomerIndex, 1);
+      currentCustomerIndex = null;
+      saveCustomersData(customers);
+      updateAutoSaveStatus('De klant is verwijderd.');
+      showPage('customersPage');
+    }
+
+    function sendReviewRequestToCustomer(customer) {
+      const reviewTool = TOOL_DEFINITIONS.find(tool => tool.id === 'review_request');
+      if (!reviewTool) return;
+      if (!customer.phone) {
+        updateAutoSaveStatus('Deze klant heeft nog geen telefoonnummer. Daarom kan het recensie-verzoek niet direct via WhatsApp worden geopend.');
+        return;
+      }
+      if (isFreePlan() && !canSendFreeMessage()) {
+        updateAutoSaveStatus('Gratis versie: je hebt je limiet van 10 berichten in 24 uur bereikt.');
+        return;
+      }
+      const message = reviewTool.buildMessage({
+        customerName: (customer.firstName || '').trim(),
+        phone: customer.phone || '',
+        email: customer.email || '',
+        helper: ''
+      }, getAccount());
+      openWhatsApp(customer.phone, message);
+      recordFreeMessageSent();
+      updateAutoSaveStatus('WhatsApp is geopend met een recensie-verzoek voor deze klant.');
+    }
+
+    function sendCustomerReviewFromDetail() {
+      const customer = collectCustomerDetailForm();
+      if (customer.firstName || customer.lastName || customer.phone) sendReviewRequestToCustomer(customer);
+    }
+
+    function resetCustomerForm() {
+      ['customerFirstName','customerMiddleName','customerLastName','customerPostcode','customerHouseNumber','customerStreetName','customerCity','customerPhone','customerEmail']
+        .forEach(id => setValue(id, ''));
+      setAddressLookupNote('customerModalAddressNote', 'Vul postcode en huisnummer in. Als een adresmatch gevonden wordt, vullen straatnaam en woonplaats zichzelf automatisch aan.');
+    }
+
+    function openCustomerModal() {
+      if (!isMaxPlan()) {
+        showPage('accountPage');
+        updateAutoSaveStatus('Klant toevoegen is alleen beschikbaar in Berichter MAX.');
+        return;
+      }
+      resetCustomerForm();
+      const modal = document.getElementById('customerModal');
+      modal?.classList.add('active');
+      modal?.setAttribute('aria-hidden', 'false');
+      document.getElementById('customerFirstName')?.focus();
+    }
+
+    function closeCustomerModal() {
+      const modal = document.getElementById('customerModal');
+      modal?.classList.remove('active');
+      modal?.setAttribute('aria-hidden', 'true');
+    }
+
+    function saveCustomer() {
+      if (!isMaxPlan()) {
+        updateAutoSaveStatus('Klant toevoegen is alleen beschikbaar in Berichter MAX.');
+        return;
+      }
+      const customer = {
+        firstName: getValue('customerFirstName'),
+        middleName: getValue('customerMiddleName'),
+        lastName: getValue('customerLastName'),
+        postcode: getValue('customerPostcode').toUpperCase().replace(/\s+/g, ''),
+        houseNumber: getValue('customerHouseNumber'),
+        streetName: getValue('customerStreetName'),
+        city: getValue('customerCity'),
+        phone: getValue('customerPhone'),
+        email: getValue('customerEmail')
+      };
+      if (!customer.firstName || !customer.lastName) {
+        updateAutoSaveStatus('Vul minimaal een voornaam en achternaam in.');
+        return;
+      }
+      const customers = getCustomers();
+      customers.push(customer);
+      saveCustomersData(customers);
+      closeCustomerModal();
+      showPage('customersPage');
     }
 
     function toggleDarkMode() {
@@ -1862,7 +3117,16 @@
     renderEmployees();
     renderTools();
     renderAccountView();
+    renderFreeUsageBanner();
     updateDashboardStats();
+    renderCustomers();
+    document.getElementById('addCustomerBtn')?.addEventListener('click', openCustomerModal);
+    document.getElementById('customerSearch')?.addEventListener('input', renderCustomers);
+    document.getElementById('customerModal')?.addEventListener('click', (event) => {
+      if (event.target.id === 'customerModal') closeCustomerModal();
+    });
+    bindCustomerAddressLookup('customerPostcode', 'customerHouseNumber', 'customerStreetName', 'customerCity', 'customerModalAddressNote');
+    bindCustomerAddressLookup('detailCustomerPostcode', 'detailCustomerHouseNumber', 'detailCustomerStreetName', 'detailCustomerCity', 'customerDetailAddressNote');
   </script>
 </body>
 </html>
